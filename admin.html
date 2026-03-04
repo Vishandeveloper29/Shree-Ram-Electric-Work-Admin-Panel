@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shree Ram Electric Works – Admin Panel</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --navy: #0d1b2a;
+            --navy2: #1b2d42;
+            --navy3: #243447;
+            --orange: #f4890a;
+            --orange2: #e07b05;
+            --orange3: #ffa940;
+            --teal: #0bb5a0;
+            --red: #e84040;
+            --green: #1cb87a;
+            --yellow: #f4c40a;
+            --bg: #f0f4f8;
+            --card: #fff;
+            --border: #dce3ed;
+            --text: #1a2535;
+            --muted: #6b7a90;
+            --light: #eef2f7;
+            --shadow: 0 2px 12px rgba(13, 27, 42, .1);
+            --shadow2: 0 8px 32px rgba(13, 27, 42, .18);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f0f4f8
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c5ced9;
+            border-radius: 99px
+        }
+
+        /* LOGIN */
+        #loginOverlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 50%, #1a3a5c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999
+        }
+
+        #loginOverlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+        }
+
+        .login-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 48px 44px;
+            width: 420px;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, .4);
+            position: relative;
+            z-index: 1
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 32px
+        }
+
+        .login-logo .logo-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--orange), var(--orange2));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 16px;
+            box-shadow: 0 8px 24px rgba(244, 137, 10, .4)
+        }
+
+        .login-logo h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.2
+        }
+
+        .login-logo p {
+            font-size: .85rem;
+            color: var(--muted);
+            margin-top: 4px
+        }
+
+        .form-field {
+            margin-bottom: 18px
+        }
+
+        .form-field label {
+            display: block;
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 8px
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .95rem;
+            outline: none;
+            transition: .2s;
+            color: var(--text)
+        }
+
+        .form-field input:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 4px rgba(244, 137, 10, .1)
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--orange), var(--orange2));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+            letter-spacing: .3px
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(244, 137, 10, .4)
+        }
+
+        .login-err {
+            color: var(--red);
+            font-size: .85rem;
+            margin-top: 10px;
+            text-align: center;
+            display: none
+        }
+
+        /* LAYOUT */
+        .app-wrap {
+            display: flex;
+            min-height: 100vh
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: var(--navy);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 200;
+            transition: .3s
+        }
+
+        .sidebar-header {
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08)
+        }
+
+        .sidebar-logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.3
+        }
+
+        .sidebar-logo span {
+            color: var(--orange);
+            display: block;
+            font-size: .8rem;
+            font-weight: 500;
+            letter-spacing: .5px;
+            margin-top: 2px
+        }
+
+        .sidebar-nav {
+            padding: 16px 12px;
+            flex: 1;
+            overflow-y: auto
+        }
+
+        .nav-section {
+            font-size: .67rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: rgba(255, 255, 255, .35);
+            padding: 12px 8px 6px;
+            margin-top: 8px
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: rgba(255, 255, 255, .7);
+            font-size: .9rem;
+            font-weight: 500;
+            transition: .2s;
+            margin-bottom: 2px
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, .08);
+            color: #fff
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--orange), var(--orange2));
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(244, 137, 10, .4)
+        }
+
+        .nav-item .ni-icon {
+            font-size: 1.1rem;
+            width: 22px;
+            text-align: center
+        }
+
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid rgba(255, 255, 255, .08)
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px
+        }
+
+        .sidebar-user .su-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--orange), var(--orange2));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .9rem;
+            flex-shrink: 0
+        }
+
+        .sidebar-user .su-info {
+            flex: 1;
+            min-width: 0
+        }
+
+        .sidebar-user .su-name {
+            font-size: .82rem;
+            font-weight: 600;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .sidebar-user .su-role {
+            font-size: .72rem;
+            color: rgba(255, 255, 255, .45)
+        }
+
+        .btn-logout {
+            width: 100%;
+            margin-top: 8px;
+            padding: 9px;
+            background: rgba(232, 64, 64, .15);
+            border: 1px solid rgba(232, 64, 64, .3);
+            color: #ff7070;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .btn-logout:hover {
+            background: rgba(232, 64, 64, .3)
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            flex: 1;
+            display: flex;
+            flex-direction: column
+        }
+
+        .topbar {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 0 28px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow)
+        }
+
+        .topbar-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--navy)
+        }
+
+        .topbar-title span {
+            color: var(--orange)
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .view-site-btn {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .2s
+        }
+
+        .view-site-btn:hover {
+            background: var(--orange2)
+        }
+
+        .page-content {
+            padding: 28px;
+            display: none
+        }
+
+        .page-content.active {
+            display: block
+        }
+
+        /* STATS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px
+        }
+
+        .stat-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            transition: .25s
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow2)
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            opacity: .08
+        }
+
+        .stat-card.c1::before {
+            background: var(--orange)
+        }
+
+        .stat-card.c2::before {
+            background: var(--teal)
+        }
+
+        .stat-card.c3::before {
+            background: var(--navy)
+        }
+
+        .stat-card.c4::before {
+            background: var(--yellow)
+        }
+
+        .stat-card.c5::before {
+            background: var(--green)
+        }
+
+        .stat-card.c6::before {
+            background: var(--red)
+        }
+
+        .sc-icon {
+            font-size: 1.5rem;
+            margin-bottom: 10px
+        }
+
+        .sc-num {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1
+        }
+
+        .sc-label {
+            font-size: .75rem;
+            color: var(--muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-top: 4px
+        }
+
+        /* CHARTS (CSS bars) */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 28px
+        }
+
+        @media(max-width:900px) {
+            .charts-row {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .chart-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 22px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow)
+        }
+
+        .chart-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--navy)
+        }
+
+        .bar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px
+        }
+
+        .bar-lbl {
+            width: 120px;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-align: right;
+            flex-shrink: 0
+        }
+
+        .bar-track {
+            flex: 1;
+            background: var(--light);
+            border-radius: 99px;
+            height: 10px;
+            overflow: hidden
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            transition: width .6s ease;
+            background: linear-gradient(90deg, var(--orange), var(--orange3))
+        }
+
+        .bar-fill.teal {
+            background: linear-gradient(90deg, var(--teal), #0dd8c0)
+        }
+
+        .bar-val {
+            width: 32px;
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--text)
+        }
+
+        /* TABLES */
+        .table-card {
+            background: var(--card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden
+        }
+
+        .table-toolbar {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .table-toolbar h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-right: auto
+        }
+
+        .search-input {
+            padding: 9px 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            outline: none;
+            transition: .2s;
+            min-width: 200px
+        }
+
+        .search-input:focus {
+            border-color: var(--orange)
+        }
+
+        .sel-filter {
+            padding: 9px 14px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            outline: none;
+            cursor: pointer
+        }
+
+        .btn {
+            padding: 9px 18px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .btn-orange {
+            background: var(--orange);
+            color: #fff
+        }
+
+        .btn-orange:hover {
+            background: var(--orange2)
+        }
+
+        .btn-navy {
+            background: var(--navy);
+            color: #fff
+        }
+
+        .btn-navy:hover {
+            background: var(--navy2)
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: #fff
+        }
+
+        .btn-green:hover {
+            background: #17a368
+        }
+
+        .btn-red {
+            background: var(--red);
+            color: #fff
+        }
+
+        .btn-red:hover {
+            background: #cc3030
+        }
+
+        .btn-light {
+            background: var(--light);
+            color: var(--text)
+        }
+
+        .btn-light:hover {
+            background: var(--border)
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: .78rem
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .data-table th {
+            padding: 11px 14px;
+            background: var(--light);
+            text-align: left;
+            font-size: .73rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            border-bottom: 2px solid var(--border);
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none
+        }
+
+        .data-table th:hover {
+            color: var(--orange)
+        }
+
+        .data-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: .88rem;
+            vertical-align: middle
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none
+        }
+
+        .data-table tr:hover td {
+            background: #fafbff
+        }
+
+        .motor-name-cell strong {
+            color: var(--navy);
+            font-weight: 700;
+            display: block
+        }
+
+        .motor-name-cell small {
+            color: var(--muted);
+            font-size: .78rem
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 99px;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .3px
+        }
+
+        .badge-ac {
+            background: #e0f0ff;
+            color: #1565c0
+        }
+
+        .badge-dc {
+            background: #fff3e0;
+            color: #e65100
+        }
+
+        .badge-1ph {
+            background: #f3e5f5;
+            color: #6a1b9a
+        }
+
+        .badge-3ph {
+            background: #e8f5e9;
+            color: #2e7d32
+        }
+
+        .badge-active {
+            background: #e8f5e9;
+            color: #2e7d32
+        }
+
+        .badge-standby {
+            background: #fff8e1;
+            color: #f57f17
+        }
+
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 14px 20px;
+            justify-content: flex-end;
+            flex-wrap: wrap
+        }
+
+        .pg-btn {
+            padding: 6px 13px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .pg-btn.active {
+            background: var(--orange);
+            border-color: var(--orange);
+            color: #fff
+        }
+
+        .pg-btn:hover:not(.active) {
+            border-color: var(--orange);
+            color: var(--orange)
+        }
+
+        .pg-info {
+            color: var(--muted);
+            font-size: .82rem;
+            margin-right: auto
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted)
+        }
+
+        .empty-state .es-icon {
+            font-size: 3rem;
+            margin-bottom: 12px
+        }
+
+        /* MODAL */
+        .modal-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 27, 42, .6);
+            z-index: 1000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+            overflow-y: auto
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, .3);
+            margin: auto;
+            animation: modalIn .25s ease
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .modal-header {
+            padding: 22px 28px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: var(--card);
+            z-index: 1;
+            border-radius: 20px 20px 0 0
+        }
+
+        .modal-header h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--navy)
+        }
+
+        .modal-close {
+            background: var(--light);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--muted);
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .modal-close:hover {
+            background: var(--red);
+            color: #fff
+        }
+
+        .modal-body {
+            padding: 24px 28px
+        }
+
+        .modal-footer {
+            padding: 18px 28px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            background: var(--light);
+            border-radius: 0 0 20px 20px
+        }
+
+        /* FORM */
+        .form-section {
+            margin-bottom: 28px
+        }
+
+        .form-section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--navy);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--orange);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .form-section-title .fs-icon {
+            font-size: 1.1rem
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px
+        }
+
+        .fg {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .fg.full {
+            grid-column: 1/-1
+        }
+
+        .fg label {
+            font-size: .75rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px
+        }
+
+        .fg input,
+        .fg select,
+        .fg textarea {
+            padding: 10px 13px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .9rem;
+            outline: none;
+            transition: .2s;
+            color: var(--text);
+            background: #fff
+        }
+
+        .fg input:focus,
+        .fg select:focus,
+        .fg textarea:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(244, 137, 10, .1)
+        }
+
+        .fg textarea {
+            resize: vertical;
+            min-height: 80px
+        }
+
+        .fg .hint {
+            font-size: .72rem;
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        /* PHASE TOGGLE */
+        .phase-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px
+        }
+
+        .phase-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+            color: var(--muted)
+        }
+
+        .phase-btn.active {
+            border-color: var(--orange);
+            background: #fff8f0;
+            color: var(--orange)
+        }
+
+        /* DETAIL VIEW SECTIONS */
+        .detail-section {
+            margin-bottom: 24px
+        }
+
+        .detail-section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--navy);
+            padding: 10px 14px;
+            background: var(--light);
+            border-radius: 10px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 4px solid var(--orange)
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px
+        }
+
+        .detail-item {
+            background: #f8fafd;
+            border-radius: 10px;
+            padding: 12px 14px;
+            border: 1px solid var(--border)
+        }
+
+        .detail-item .di-label {
+            font-size: .68rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            margin-bottom: 5px
+        }
+
+        .detail-item .di-val {
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--navy)
+        }
+
+        .detail-item .di-val.highlight {
+            color: var(--orange);
+            font-size: 1.1rem
+        }
+
+        /* CONFIRM MODAL */
+        .confirm-box {
+            background: var(--card);
+            border-radius: 18px;
+            padding: 36px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, .25);
+            margin: auto
+        }
+
+        .confirm-box .cb-icon {
+            font-size: 3rem;
+            margin-bottom: 14px
+        }
+
+        .confirm-box h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--navy)
+        }
+
+        .confirm-box p {
+            color: var(--muted);
+            font-size: .9rem;
+            margin-bottom: 24px
+        }
+
+        .confirm-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center
+        }
+
+        /* SETTINGS */
+        .settings-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            max-width: 480px;
+            margin-bottom: 20px
+        }
+
+        .settings-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--navy);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px
+        }
+
+        /* EXPORT */
+        .export-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 24px
+        }
+
+        .export-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            text-align: center
+        }
+
+        .export-card .ec-icon {
+            font-size: 2.4rem;
+            margin-bottom: 12px
+        }
+
+        .export-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--navy)
+        }
+
+        .export-card p {
+            font-size: .82rem;
+            color: var(--muted);
+            margin-bottom: 16px
+        }
+
+        /* DROPZONE */
+        .drop-zone {
+            border: 3px dashed var(--border);
+            border-radius: 14px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: .2s;
+            margin-bottom: 16px
+        }
+
+        .drop-zone:hover,
+        .drop-zone.drag-over {
+            border-color: var(--orange);
+            background: #fff8f0
+        }
+
+        .drop-zone .dz-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px
+        }
+
+        /* TOAST */
+        .toast-wrap {
+            position: fixed;
+            top: 76px;
+            right: 20px;
+            z-index: 9000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none
+        }
+
+        .toast {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 14px 18px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .18);
+            border-left: 4px solid var(--green);
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--text);
+            animation: toastIn .35s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: all;
+            min-width: 240px;
+            max-width: 340px
+        }
+
+        .toast.err {
+            border-left-color: var(--red)
+        }
+
+        .toast.warn {
+            border-left-color: var(--yellow)
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        @media(max-width:768px) {
+            .sidebar {
+                transform: translateX(-260px)
+            }
+
+            .sidebar.open {
+                transform: translateX(0)
+            }
+
+            .main {
+                margin-left: 0
+            }
+
+            .topbar {
+                padding: 0 16px
+            }
+
+            .page-content {
+                padding: 16px
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+    <div id="loginOverlay">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="logo-icon">⚡</div>
+                <h2>Shree Ram Electric Works</h2>
+                <p>Motor Data Management System — Admin</p>
+            </div>
+            <div class="form-field"><label>Username</label><input type="text" id="loginUser"
+                    placeholder="Enter username" autocomplete="username" /></div>
+            <div class="form-field"><label>Password</label><input type="password" id="loginPass"
+                    placeholder="Enter password" autocomplete="current-password" /></div>
+            <button class="login-btn" onclick="doLogin()">Login to Admin Panel</button>
+            <div class="login-err" id="loginErr">❌ Invalid username or password</div>
+        </div>
+    </div>
+
+    <div class="app-wrap" id="appWrap" style="display:none">
+        <!-- SIDEBAR -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">⚡ Shree Ram<span>Electric Works · Admin</span></div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">Main</div>
+                <div class="nav-item active" onclick="showPage('dashboard',this)"><span
+                        class="ni-icon">📊</span>Dashboard</div>
+                <div class="nav-item" onclick="showPage('motors',this)"><span class="ni-icon">⚡</span>Motor Records
+                </div>
+                <div class="nav-section">Tools</div>
+                <div class="nav-item" onclick="showPage('export',this)"><span class="ni-icon">📤</span>Export / Import
+                </div>
+                <div class="nav-item" onclick="showPage('settings',this)"><span class="ni-icon">⚙️</span>Settings</div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="su-avatar">SR</div>
+                    <div class="su-info">
+                        <div class="su-name">Shree Ram Electric</div>
+                        <div class="su-role">Administrator</div>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main">
+            <div class="topbar">
+                <div class="topbar-title">Motor<span>Spec</span> Admin</div>
+                <div class="topbar-right">
+                    <a href="index.html" class="view-site-btn">🌐 View Public Site</a>
+                </div>
+            </div>
+
+            <!-- DASHBOARD -->
+            <div class="page-content active" id="page-dashboard">
+                <div class="stats-grid" id="statsGrid"></div>
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <h3>⚡ Motor Types</h3>
+                        <div id="typeChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>🏷️ Top Brands</h3>
+                        <div id="brandChart"></div>
+                    </div>
+                </div>
+                <div class="table-card">
+                    <div class="table-toolbar">
+                        <h3>🕐 Recently Added / Updated</h3>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Motor</th>
+                                <th>Brand</th>
+                                <th>HP</th>
+                                <th>RPM</th>
+                                <th>Phase</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MOTORS -->
+            <div class="page-content" id="page-motors">
+                <div class="table-card">
+                    <div class="table-toolbar">
+                        <h3>⚡ Motor Records</h3>
+                        <input class="search-input" id="motorSearch" placeholder="🔍 Search motors..."
+                            oninput="filterMotors()" />
+                        <select class="sel-filter" id="typeFilter" onchange="filterMotors()">
+                            <option value="">All Types</option>
+                            <option>AC</option>
+                            <option>DC</option>
+                        </select>
+                        <select class="sel-filter" id="phaseFilter" onchange="filterMotors()">
+                            <option value="">All Phases</option>
+                            <option value="Single">Single Phase</option>
+                            <option value="Three">Three Phase</option>
+                        </select>
+                        <button class="btn btn-orange" onclick="openAddModal()">➕ Add Motor</button>
+                    </div>
+                    <div style="overflow-x:auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortMotors('brand')">Brand ↕</th>
+                                    <th onclick="sortMotors('modelNumber')">Model ↕</th>
+                                    <th onclick="sortMotors('ratedPowerHP')">HP ↕</th>
+                                    <th onclick="sortMotors('ratedRPM')">RPM ↕</th>
+                                    <th onclick="sortMotors('ratedVoltage')">Voltage ↕</th>
+                                    <th onclick="sortMotors('motorType')">Type ↕</th>
+                                    <th onclick="sortMotors('phase')">Phase ↕</th>
+                                    <th>Wire Gauge</th>
+                                    <th>Coil Turns</th>
+                                    <th>Coil Weight</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="motorBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination" id="motorPagination"></div>
+                </div>
+            </div>
+
+            <!-- EXPORT -->
+            <div class="page-content" id="page-export">
+                <div class="export-grid">
+                    <div class="export-card">
+                        <div class="ec-icon">📊</div>
+                        <h3>Export CSV</h3>
+                        <p>Download all motor data as spreadsheet</p><button class="btn btn-green"
+                            onclick="exportCSV()">⬇ Download CSV</button>
+                    </div>
+                    <div class="export-card">
+                        <div class="ec-icon">💾</div>
+                        <h3>Export JSON</h3>
+                        <p>Full data backup in JSON format</p><button class="btn btn-navy" onclick="exportJSON()">⬇
+                            Download JSON</button>
+                    </div>
+                    <div class="export-card">
+                        <div class="ec-icon">🖨️</div>
+                        <h3>Print Report</h3>
+                        <p>Open a clean printable report</p><button class="btn btn-light" onclick="printReport()">🖨
+                            Print / PDF</button>
+                    </div>
+                    <div class="export-card">
+                        <div class="ec-icon">📋</div>
+                        <h3>Copy Table</h3>
+                        <p>Copy data to paste in Excel / Sheets</p><button class="btn btn-light"
+                            onclick="copyTable()">📋 Copy TSV</button>
+                    </div>
+                </div>
+                <h3
+                    style="margin-bottom:14px;font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:700;color:var(--navy)">
+                    📂 Import JSON Backup</h3>
+                <div class="drop-zone" id="dropZone" onclick="document.getElementById('importFile').click()"
+                    ondragover="dzOver(event)" ondragleave="dzLeave(event)" ondrop="dzDrop(event)">
+                    <div class="dz-icon">📁</div>
+                    <p style="color:var(--muted)">Click or drag & drop JSON file here</p>
+                </div>
+                <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(this)" />
+                <div id="importPreview"></div>
+            </div>
+
+            <!-- SETTINGS -->
+            <div class="page-content" id="page-settings">
+                <div class="settings-card">
+                    <h3>🔑 Change Admin Password</h3>
+                    <div class="fg" style="margin-bottom:14px"><label>Current Password</label><input type="password"
+                            id="curPass" placeholder="Enter current password" /></div>
+                    <div class="fg" style="margin-bottom:14px"><label>New Password</label><input type="password"
+                            id="newPass" placeholder="Enter new password (min 6 chars)" /></div>
+                    <div class="fg" style="margin-bottom:20px"><label>Confirm New Password</label><input type="password"
+                            id="conPass" placeholder="Confirm new password" /></div>
+                    <button class="btn btn-orange" onclick="changePassword()">💾 Update Password</button>
+                </div>
+                <div class="settings-card">
+                    <h3>🗑️ Danger Zone</h3>
+                    <p style="color:var(--muted);font-size:.88rem;margin-bottom:16px">Permanently delete all motor
+                        records. This cannot be undone.</p>
+                    <button class="btn btn-red" onclick="clearAllData()">🗑️ Clear All Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast-wrap" id="toastWrap"></div>
+
+    <!-- ADD/EDIT MOTOR MODAL -->
+    <div class="modal-bg" id="motorModal" style="display:none" onclick="closeMModalOutside(event)">
+        <div class="modal" id="motorModalInner">
+            <div class="modal-header">
+                <h2 id="mModalTitle">Add Motor</h2>
+                <button class="modal-close" onclick="closeMotorModal()">✕</button>
+            </div>
+            <div class="modal-body">
+
+                <!-- Phase Toggle -->
+                <div style="margin-bottom:20px">
+                    <label
+                        style="font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:10px">Motor
+                        Phase</label>
+                    <div class="phase-toggle">
+                        <button class="phase-btn active" id="phBtn1" onclick="setPhase('Single')">🔌 Single
+                            Phase</button>
+                        <button class="phase-btn" id="phBtn3" onclick="setPhase('Three')">⚡ Three Phase</button>
+                    </div>
+                </div>
+
+                <!-- A: NAMEPLATE -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">🏷️</span>A. Nameplate Details</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Brand Name *</label><input type="text" id="f_brand"
+                                placeholder="e.g. Crompton" /></div>
+                        <div class="fg"><label>Manufacturer</label><input type="text" id="f_manufacturer"
+                                placeholder="e.g. Crompton Greaves" /></div>
+                        <div class="fg"><label>Model Number *</label><input type="text" id="f_modelNumber"
+                                placeholder="e.g. GF2054" /></div>
+                        <div class="fg"><label>Serial Number</label><input type="text" id="f_serialNumber"
+                                placeholder="e.g. SN-2024-001" /></div>
+                        <div class="fg"><label>Motor Type *</label><select id="f_motorType">
+                                <option value="">Select</option>
+                                <option>AC</option>
+                                <option>DC</option>
+                            </select></div>
+                        <div class="fg"><label>Phase *</label><select id="f_phase" onchange="onPhaseChange()">
+                                <option value="">Select</option>
+                                <option>Single</option>
+                                <option>Three</option>
+                            </select></div>
+                        <div class="fg"><label>Rated Voltage (V) *</label><input type="text" id="f_ratedVoltage"
+                                placeholder="e.g. 230V / 415V" /></div>
+                        <div class="fg"><label>Rated Current (A) *</label><input type="text" id="f_ratedCurrent"
+                                placeholder="e.g. 7.5A" /></div>
+                        <div class="fg"><label>Rated Frequency (Hz)</label><input type="text" id="f_ratedFrequency"
+                                placeholder="e.g. 50Hz" /></div>
+                        <div class="fg"><label>Rated RPM *</label><input type="number" id="f_ratedRPM"
+                                placeholder="e.g. 1440" oninput="" /></div>
+                        <div class="fg"><label>Rated Power (HP) *</label><input type="number" id="f_ratedPowerHP"
+                                step="0.01" placeholder="e.g. 1.5" oninput="autoKW()" /></div>
+                        <div class="fg"><label>Rated Power (kW) <span
+                                    style="color:var(--orange);font-size:.7rem">Auto</span></label><input type="text"
+                                id="f_ratedPowerKW" placeholder="Auto calculated" readonly style="background:#f8fafd" />
+                        </div>
+                        <div class="fg"><label>Duty Type</label><select id="f_dutyType">
+                                <option value="">Select</option>
+                                <option>S1</option>
+                                <option>S2</option>
+                                <option>S3</option>
+                                <option>S4</option>
+                                <option>S5</option>
+                                <option>S6</option>
+                            </select></div>
+                        <div class="fg"><label>Insulation Class</label><select id="f_insulationClass">
+                                <option value="">Select</option>
+                                <option>A</option>
+                                <option>B</option>
+                                <option>F</option>
+                                <option>H</option>
+                            </select></div>
+                        <div class="fg"><label>IP Rating</label><select id="f_ipRating">
+                                <option value="">Select</option>
+                                <option>IP44</option>
+                                <option>IP54</option>
+                                <option>IP55</option>
+                                <option>IP65</option>
+                                <option>IP66</option>
+                            </select></div>
+                        <div class="fg"><label>Power Factor (Cos φ)</label><input type="text" id="f_powerFactor"
+                                placeholder="e.g. 0.85" /></div>
+                        <div class="fg"><label>Efficiency %</label><input type="text" id="f_efficiency"
+                                placeholder="e.g. 87%" /></div>
+                        <div class="fg"><label>Ambient Temp (°C)</label><input type="text" id="f_ambientTemp"
+                                placeholder="e.g. 40°C" /></div>
+                        <div class="fg"><label>Service Factor</label><input type="text" id="f_serviceFactor"
+                                placeholder="e.g. 1.15" /></div>
+                        <div class="fg"><label>Frame Size</label><input type="text" id="f_frameSize"
+                                placeholder="e.g. D100L" /></div>
+                        <div class="fg"><label>Mounting Type</label><select id="f_mountingType">
+                                <option value="">Select</option>
+                                <option>B3</option>
+                                <option>B5</option>
+                                <option>B14</option>
+                                <option>B34</option>
+                                <option>B35</option>
+                            </select></div>
+                        <div class="fg"><label>Country of Origin</label><input type="text" id="f_countryOrigin"
+                                placeholder="e.g. India" /></div>
+                        <div class="fg"><label>Mfg. Date</label><input type="text" id="f_mfgDate"
+                                placeholder="e.g. Jan 2022" /></div>
+                    </div>
+                </div>
+
+                <!-- B: ELECTRICAL -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">⚡</span>B. Electrical Specifications</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Starting Current (A)</label><input type="text" id="f_startingCurrent"
+                                placeholder="e.g. 45A" /></div>
+                        <div class="fg"><label>Running Current (A)</label><input type="text" id="f_runningCurrent"
+                                placeholder="e.g. 7.2A" /></div>
+                        <div class="fg"><label>Locked Rotor Current (A)</label><input type="text"
+                                id="f_lockedRotorCurrent" placeholder="e.g. 52A" /></div>
+                        <div class="fg"><label>Breakdown Torque (N·m)</label><input type="text" id="f_breakdownTorque"
+                                placeholder="e.g. 28 N·m" /></div>
+                        <div class="fg"><label>Full Load Torque (N·m)</label><input type="text" id="f_fullLoadTorque"
+                                placeholder="e.g. 14 N·m" /></div>
+                        <div class="fg"><label>Winding Resistance R-Phase (Ω)</label><input type="text"
+                                id="f_windingResR" placeholder="e.g. 12.4Ω" /></div>
+                        <div class="fg"><label>Winding Resistance Y-Phase (Ω)</label><input type="text"
+                                id="f_windingResY" placeholder="e.g. 12.3Ω" /></div>
+                        <div class="fg"><label>Winding Resistance B-Phase (Ω)</label><input type="text"
+                                id="f_windingResB" placeholder="e.g. 12.5Ω" /></div>
+                        <div class="fg"><label>Megger Test Value (MΩ)</label><input type="text" id="f_meggerTest"
+                                placeholder="e.g. &gt;100 MΩ" /></div>
+                        <div class="fg"><label>Continuity Test Result</label><select id="f_continuityTest">
+                                <option value="">Select</option>
+                                <option>Pass</option>
+                                <option>Fail</option>
+                                <option>Not Tested</option>
+                            </select></div>
+                    </div>
+                </div>
+
+                <!-- C: WINDING -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">🔩</span>C. Winding / Coil Details</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Stator Slot Count</label><input type="number" id="f_statorSlots"
+                                placeholder="e.g. 36" /></div>
+                        <div class="fg"><label>Rotor Slot Count</label><input type="number" id="f_rotorSlots"
+                                placeholder="e.g. 28" /></div>
+                        <div class="fg"><label>Slot Length (mm)</label><input type="text" id="f_slotLength"
+                                placeholder="e.g. 45mm" /></div>
+                        <div class="fg"><label>Rotor Bore Dia (mm)</label><input type="text" id="f_rotorBore"
+                                placeholder="e.g. 72mm" /></div>
+                        <div class="fg"><label>Core Length (mm)</label><input type="text" id="f_coreLength"
+                                placeholder="e.g. 80mm" /></div>
+                        <div class="fg"><label>Stack Height (mm)</label><input type="text" id="f_stackHeight"
+                                placeholder="e.g. 100mm" /></div>
+                        <div class="fg"><label>Air Gap (mm)</label><input type="text" id="f_airGap"
+                                placeholder="e.g. 0.3mm" /></div>
+                        <div class="fg"><label>Total Coil Turns</label><input type="number" id="f_totalCoilTurns"
+                                placeholder="e.g. 720" /></div>
+                        <div class="fg"><label>Turns Per Coil</label><input type="number" id="f_turnsPerCoil"
+                                placeholder="e.g. 90" /></div>
+                        <div class="fg"><label>Coil Pitch</label><input type="text" id="f_coilPitch"
+                                placeholder="e.g. 1-8" /></div>
+                        <div class="fg"><label>Winding Type</label><select id="f_windingType">
+                                <option value="">Select</option>
+                                <option>Lap</option>
+                                <option>Wave</option>
+                                <option>Concentric</option>
+                            </select></div>
+                        <div class="fg"><label>Winding Connection</label><select id="f_windingConnection">
+                                <option value="">Select</option>
+                                <option>Star</option>
+                                <option>Delta</option>
+                                <option>Star/Delta</option>
+                            </select></div>
+                        <div class="fg"><label>Coil Wire Type</label><select id="f_coilWireType">
+                                <option value="">Select</option>
+                                <option>Copper</option>
+                                <option>Aluminium</option>
+                            </select></div>
+                        <div class="fg"><label>Wire Gauge (SWG) *</label><input type="text" id="f_wireGauge"
+                                placeholder="e.g. 22 SWG" /></div>
+                        <div class="fg"><label>Wire Diameter (mm)</label><input type="text" id="f_wireDiameter"
+                                placeholder="e.g. 0.71mm" /></div>
+                        <div class="fg"><label>Coil Weight (kg) *</label><input type="text" id="f_coilWeight"
+                                placeholder="e.g. 1.2kg" /></div>
+                        <div class="fg"><label>Total Copper Weight (kg)</label><input type="text"
+                                id="f_totalCopperWeight" placeholder="e.g. 1.05kg" /></div>
+                        <div class="fg"><label>Insulation Paper Type</label><input type="text" id="f_insulationPaper"
+                                placeholder="e.g. Nomex 410" /></div>
+                        <div class="fg"><label>Slot Insulation Thick (mm)</label><input type="text"
+                                id="f_slotInsulThick" placeholder="e.g. 0.25mm" /></div>
+                        <div class="fg"><label>Varnish Type</label><input type="text" id="f_varnishType"
+                                placeholder="e.g. Class F Epoxy" /></div>
+                        <div class="fg"><label>Baking Temp (°C)</label><input type="text" id="f_bakingTemp"
+                                placeholder="e.g. 130°C" /></div>
+                        <div class="fg"><label>Baking Time (hrs)</label><input type="text" id="f_bakingTime"
+                                placeholder="e.g. 6 hrs" /></div>
+                    </div>
+                </div>
+
+                <!-- D: SINGLE PHASE EXTRA -->
+                <div class="form-section" id="singlePhaseSection">
+                    <div class="form-section-title"><span class="fs-icon">🔌</span>D. Single Phase — Starting & Running
+                        Coil</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Starting Coil Turns</label><input type="number" id="f_startingCoilTurns"
+                                placeholder="e.g. 480" /></div>
+                        <div class="fg"><label>Running Coil Turns</label><input type="number" id="f_runningCoilTurns"
+                                placeholder="e.g. 240" /></div>
+                        <div class="fg"><label>Starting Coil Resistance (Ω)</label><input type="text"
+                                id="f_startingCoilResistance" placeholder="e.g. 28Ω" /></div>
+                        <div class="fg"><label>Running Coil Resistance (Ω)</label><input type="text"
+                                id="f_runningCoilResistance" placeholder="e.g. 12Ω" /></div>
+                        <div class="fg"><label>Starting Coil Weight (kg)</label><input type="text"
+                                id="f_startingCoilWeight" placeholder="e.g. 0.45kg" /></div>
+                        <div class="fg"><label>Running Coil Weight (kg)</label><input type="text"
+                                id="f_runningCoilWeight" placeholder="e.g. 0.75kg" /></div>
+                        <div class="fg"><label>Capacitor Type</label><select id="f_capacitorType">
+                                <option value="">Select</option>
+                                <option>Start</option>
+                                <option>Run</option>
+                                <option>Start + Run</option>
+                            </select></div>
+                        <div class="fg"><label>Capacitor Value (µF)</label><input type="text" id="f_capacitorValue"
+                                placeholder="e.g. 25µF / 4µF" /></div>
+                        <div class="fg"><label>Capacitor Voltage Rating</label><input type="text"
+                                id="f_capacitorVoltage" placeholder="e.g. 250V / 400V" /></div>
+                        <div class="fg"><label>Centrifugal Switch</label><select id="f_centrifugalSwitch">
+                                <option value="">Select</option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select></div>
+                    </div>
+                </div>
+
+                <!-- E: THREE PHASE EXTRA -->
+                <div class="form-section" id="threePhaseSection" style="display:none">
+                    <div class="form-section-title"><span class="fs-icon">⚡</span>E. Three Phase — Electrical Details
+                    </div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Line Voltage (V)</label><input type="text" id="f_lineVoltage"
+                                placeholder="e.g. 415V" /></div>
+                        <div class="fg"><label>Phase Voltage (V)</label><input type="text" id="f_phaseVoltage"
+                                placeholder="e.g. 240V" /></div>
+                        <div class="fg"><label>Line Current (A)</label><input type="text" id="f_lineCurrent"
+                                placeholder="e.g. 7.5A" /></div>
+                        <div class="fg"><label>Phase Current (A)</label><input type="text" id="f_phaseCurrent"
+                                placeholder="e.g. 4.3A" /></div>
+                        <div class="fg"><label>Star/Delta Connection</label><select id="f_starDeltaConn">
+                                <option value="">Select</option>
+                                <option>Star</option>
+                                <option>Delta</option>
+                                <option>Star-Delta Starter</option>
+                            </select></div>
+                        <div class="fg"><label>Terminal Markings</label><input type="text" id="f_terminalMarkings"
+                                placeholder="e.g. U1,U2,V1,V2,W1,W2" /></div>
+                    </div>
+                </div>
+
+                <!-- F: MECHANICAL -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">⚙️</span>F. Mechanical Details</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Shaft Diameter (mm)</label><input type="text" id="f_shaftDiameter"
+                                placeholder="e.g. 28mm" /></div>
+                        <div class="fg"><label>Shaft Length (mm)</label><input type="text" id="f_shaftLength"
+                                placeholder="e.g. 60mm" /></div>
+                        <div class="fg"><label>Bearing Number Front</label><input type="text" id="f_bearingFront"
+                                placeholder="e.g. 6305" /></div>
+                        <div class="fg"><label>Bearing Number Rear</label><input type="text" id="f_bearingRear"
+                                placeholder="e.g. 6203" /></div>
+                        <div class="fg"><label>Cooling Type</label><input type="text" id="f_coolingType"
+                                placeholder="e.g. IC411 / TEFC" /></div>
+                        <div class="fg"><label>Fan Type</label><input type="text" id="f_fanType"
+                                placeholder="e.g. External" /></div>
+                        <div class="fg"><label>Fan Cover Type</label><input type="text" id="f_fanCoverType"
+                                placeholder="e.g. End Cover" /></div>
+                        <div class="fg"><label>Total Motor Weight (kg)</label><input type="text" id="f_motorWeight"
+                                placeholder="e.g. 12.5kg" /></div>
+                        <div class="fg"><label>Body Material</label><select id="f_bodyMaterial">
+                                <option value="">Select</option>
+                                <option>Cast Iron</option>
+                                <option>Aluminium</option>
+                                <option>Steel</option>
+                            </select></div>
+                    </div>
+                </div>
+
+                <!-- G: REPAIR HISTORY -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">🔧</span>G. Repair & Service History</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Last Rewinding Date</label><input type="date" id="f_lastRewindDate" />
+                        </div>
+                        <div class="fg"><label>Rewinding Done By</label><input type="text" id="f_rewindingBy"
+                                placeholder="e.g. Shree Ram Electric" /></div>
+                        <div class="fg"><label>Old Coil Weight (kg)</label><input type="text" id="f_oldCoilWeight"
+                                placeholder="e.g. 1.1kg" /></div>
+                        <div class="fg"><label>New Coil Weight (kg)</label><input type="text" id="f_newCoilWeight"
+                                placeholder="e.g. 1.2kg" /></div>
+                        <div class="fg"><label>Bearing Changed</label><select id="f_bearingChanged">
+                                <option value="">Select</option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select></div>
+                        <div class="fg"><label>Capacitor Changed</label><select id="f_capacitorChanged">
+                                <option value="">Select</option>
+                                <option>Yes</option>
+                                <option>No</option>
+                            </select></div>
+                        <div class="fg"><label>Test Report After Repair</label><select id="f_testReport">
+                                <option value="">Select</option>
+                                <option>Pass</option>
+                                <option>Fail</option>
+                                <option>Pending</option>
+                            </select></div>
+                        <div class="fg full"><label>Notes / Observations</label><textarea id="f_notes"
+                                placeholder="Any additional notes, observations, or special instructions..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-light" onclick="closeMotorModal()">Cancel</button>
+                <button class="btn btn-orange" onclick="saveMotor()">💾 Save Motor Record</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAIL VIEW MODAL -->
+    <div class="modal-bg" id="detailModal" style="display:none" onclick="closeDetailOutside(event)">
+        <div class="modal" id="detailModalInner">
+            <div class="modal-header">
+                <h2 id="detailTitle">Motor Details</h2>
+                <button class="modal-close" onclick="closeDetail()">✕</button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-light" onclick="closeDetail()">Close</button>
+                <button class="btn btn-orange" id="detailEditBtn">✏️ Edit This Motor</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIRM MODAL -->
+    <div class="modal-bg" id="confirmModal" style="display:none">
+        <div class="confirm-box">
+            <div class="cb-icon">🗑️</div>
+            <h3>Delete Motor?</h3>
+            <p id="confirmMsg">This action cannot be undone.</p>
+            <div class="confirm-btns">
+                <button class="btn btn-light" onclick="closeConfirm()">Cancel</button>
+                <button class="btn btn-red" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================
+        // CONFIG & STORAGE
+        // ============================
+        const LS_MOTORS = 'srew_motors';
+        const LS_PASS = 'srew_password';
+        const LS_SESSION = 'srew_session';
+        const DEFAULT_PASS_HASH = hashStr('Admin@123');
+        const DEFAULT_USER = 'Shree Ram Electric Works';
+
+        function hashStr(s) { let h = 0; for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; } return h.toString(36) }
+        function getPass() { return localStorage.getItem(LS_PASS) || DEFAULT_PASS_HASH }
+        function getMotors() { const r = localStorage.getItem(LS_MOTORS); return r ? JSON.parse(r) : getSampleData() }
+        function saveMotors(arr) { localStorage.setItem(LS_MOTORS, JSON.stringify(arr)) }
+
+        function getSampleData() {
+            const data = [
+                { id: 1, brand: 'Crompton', manufacturer: 'Crompton Greaves Ltd', modelNumber: 'GF2054', serialNumber: 'CG-2023-001', motorType: 'AC', phase: 'Single', ratedVoltage: '230V', ratedCurrent: '8.5A', ratedFrequency: '50Hz', ratedRPM: 1440, ratedPowerHP: 1.5, ratedPowerKW: '1.12', dutyType: 'S1', insulationClass: 'B', ipRating: 'IP55', powerFactor: '0.88', efficiency: '82%', ambientTemp: '40°C', serviceFactor: '1.15', frameSize: 'D90S', mountingType: 'B3', countryOrigin: 'India', mfgDate: 'Jan 2020', startingCurrent: '52A', runningCurrent: '8.2A', lockedRotorCurrent: '58A', breakdownTorque: '18 N·m', fullLoadTorque: '7.4 N·m', windingResR: '12.4Ω', windingResY: '12.3Ω', windingResB: '12.5Ω', meggerTest: '>100 MΩ', continuityTest: 'Pass', statorSlots: 36, rotorSlots: 28, slotLength: '42mm', rotorBore: '68mm', coreLength: '75mm', stackHeight: '90mm', airGap: '0.3mm', totalCoilTurns: 720, turnsPerCoil: 90, coilPitch: '1-8', windingType: 'Concentric', windingConnection: '', coilWireType: 'Copper', wireGauge: '22 SWG', wireDiameter: '0.71mm', coilWeight: '1.15', totalCopperWeight: '1.05', insulationPaper: 'Nomex 410', slotInsulThick: '0.25mm', varnishType: 'Class B Epoxy', bakingTemp: '120°C', bakingTime: '5 hrs', startingCoilTurns: 480, runningCoilTurns: 240, startingCoilResistance: '28Ω', runningCoilResistance: '12.4Ω', startingCoilWeight: '0.42', runningCoilWeight: '0.73', capacitorType: 'Start + Run', capacitorValue: '25µF / 4µF', capacitorVoltage: '250V / 400V', centrifugalSwitch: 'Yes', lineVoltage: '', phaseVoltage: '', lineCurrent: '', phaseCurrent: '', starDeltaConn: '', terminalMarkings: '', shaftDiameter: '24mm', shaftLength: '55mm', bearingFront: '6305', bearingRear: '6203', coolingType: 'IC211', fanType: 'External', fanCoverType: 'End Cover', motorWeight: '11.5', bodyMaterial: 'Cast Iron', lastRewindDate: '2023-06-10', rewindingBy: 'Shree Ram Electric Works', oldCoilWeight: '1.0', newCoilWeight: '1.15', bearingChanged: 'Yes', capacitorChanged: 'Yes', testReport: 'Pass', notes: 'Motor rewound after burnout. Running perfectly.', added: Date.now() - 86400000 * 10 },
+                { id: 2, brand: 'Kirloskar', manufacturer: 'Kirloskar Electric Co.', modelNumber: 'KE3-4544', serialNumber: 'KE-2022-045', motorType: 'AC', phase: 'Three', ratedVoltage: '415V', ratedCurrent: '7.8A', ratedFrequency: '50Hz', ratedRPM: 1450, ratedPowerHP: 3, ratedPowerKW: '2.24', dutyType: 'S1', insulationClass: 'F', ipRating: 'IP55', powerFactor: '0.86', efficiency: '87%', ambientTemp: '50°C', serviceFactor: '1.0', frameSize: 'D100L', mountingType: 'B3', countryOrigin: 'India', mfgDate: 'Mar 2022', startingCurrent: '47A', runningCurrent: '7.5A', lockedRotorCurrent: '52A', breakdownTorque: '28 N·m', fullLoadTorque: '14.8 N·m', windingResR: '4.2Ω', windingResY: '4.1Ω', windingResB: '4.2Ω', meggerTest: '>500 MΩ', continuityTest: 'Pass', statorSlots: 36, rotorSlots: 28, slotLength: '55mm', rotorBore: '72mm', coreLength: '85mm', stackHeight: '100mm', airGap: '0.35mm', totalCoilTurns: 576, turnsPerCoil: 72, coilPitch: '1-9', windingType: 'Lap', windingConnection: 'Star', coilWireType: 'Copper', wireGauge: '20 SWG', wireDiameter: '0.91mm', coilWeight: '2.8', totalCopperWeight: '2.6', insulationPaper: 'Leatheroid 0.2mm', slotInsulThick: '0.30mm', varnishType: 'Class F Alkyd', bakingTemp: '155°C', bakingTime: '8 hrs', startingCoilTurns: 0, runningCoilTurns: 0, startingCoilResistance: '', runningCoilResistance: '', startingCoilWeight: '', runningCoilWeight: '', capacitorType: '', capacitorValue: '', capacitorVoltage: '', centrifugalSwitch: '', lineVoltage: '415V', phaseVoltage: '240V', lineCurrent: '7.8A', phaseCurrent: '4.5A', starDeltaConn: 'Star', terminalMarkings: 'U1,U2,V1,V2,W1,W2', shaftDiameter: '28mm', shaftLength: '60mm', bearingFront: '6206', bearingRear: '6204', coolingType: 'IC411', fanType: 'External', fanCoverType: 'End Cover', motorWeight: '18.5', bodyMaterial: 'Cast Iron', lastRewindDate: '2024-01-15', rewindingBy: 'Shree Ram Electric Works', oldCoilWeight: '2.5', newCoilWeight: '2.8', bearingChanged: 'Yes', capacitorChanged: 'No', testReport: 'Pass', notes: 'Rewound after flood damage. Star connected.', added: Date.now() - 86400000 * 5 },
+            ];
+            saveMotors(data);
+            return data;
+        }
+
+        // ============================
+        // LOGIN
+        // ============================
+        document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin() });
+        document.getElementById('loginUser').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin() });
+
+        function doLogin() {
+            const u = document.getElementById('loginUser').value.trim();
+            const p = document.getElementById('loginPass').value.trim();
+            if (u === DEFAULT_USER && hashStr(p) === getPass()) {
+                sessionStorage.setItem(LS_SESSION, '1');
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('appWrap').style.display = 'flex';
+                refreshAll();
+            } else {
+                document.getElementById('loginErr').style.display = 'block';
+            }
+        }
+        function logout() { sessionStorage.removeItem(LS_SESSION); location.reload() }
+
+        if (sessionStorage.getItem(LS_SESSION) === '1') {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('appWrap').style.display = 'flex';
+            refreshAll();
+        }
+
+        // ============================
+        // NAVIGATION
+        // ============================
+        function showPage(id, el) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + id).classList.add('active');
+            el.classList.add('active');
+            if (id === 'dashboard') renderDashboard();
+            if (id === 'motors') { filterMotors(); }
+        }
+
+        // ============================
+        // REFRESH ALL
+        // ============================
+        function refreshAll() {
+            renderDashboard();
+            filterMotors();
+        }
+
+        // ============================
+        // DASHBOARD
+        // ============================
+        function renderDashboard() {
+            const motors = getMotors();
+            const total = motors.length;
+            const ac = motors.filter(m => m.motorType === 'AC').length;
+            const dc = motors.filter(m => m.motorType === 'DC').length;
+            const single = motors.filter(m => m.phase === 'Single').length;
+            const three = motors.filter(m => m.phase === 'Three').length;
+            const rewound = motors.filter(m => m.lastRewindDate).length;
+            const totalCu = motors.reduce((s, m) => s + parseFloat(m.totalCopperWeight || 0), 0);
+            const avgHP = total ? motors.reduce((s, m) => s + parseFloat(m.ratedPowerHP || 0), 0) / total : 0;
+            const avgRPM = total ? motors.reduce((s, m) => s + parseFloat(m.ratedRPM || 0), 0) / total : 0;
+
+            document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card c1"><div class="sc-icon">⚡</div><div class="sc-num">${total}</div><div class="sc-label">Total Motors</div></div>
+    <div class="stat-card c2"><div class="sc-icon">🔵</div><div class="sc-num" style="color:var(--teal)">${ac}</div><div class="sc-label">AC Motors</div></div>
+    <div class="stat-card c6"><div class="sc-icon">🔴</div><div class="sc-num" style="color:var(--red)">${dc}</div><div class="sc-label">DC Motors</div></div>
+    <div class="stat-card c4"><div class="sc-icon">🔌</div><div class="sc-num" style="color:var(--yellow)">${single}</div><div class="sc-label">Single Phase</div></div>
+    <div class="stat-card c5"><div class="sc-icon">⚡</div><div class="sc-num" style="color:var(--green)">${three}</div><div class="sc-label">Three Phase</div></div>
+    <div class="stat-card c3"><div class="sc-icon">🔩</div><div class="sc-num">${totalCu.toFixed(2)}</div><div class="sc-label">Total Cu (kg)</div></div>
+    <div class="stat-card c1"><div class="sc-icon">💪</div><div class="sc-num">${avgHP.toFixed(2)}</div><div class="sc-label">Avg HP</div></div>
+    <div class="stat-card c2"><div class="sc-icon">🔄</div><div class="sc-num">${Math.round(avgRPM)}</div><div class="sc-label">Avg RPM</div></div>
+    <div class="stat-card c5"><div class="sc-icon">🔧</div><div class="sc-num" style="color:var(--green)">${rewound}</div><div class="sc-label">Rewound</div></div>
+  `;
+
+            // Type chart
+            const typeData = [['AC Motors', ac], ['DC Motors', dc], ['Single Phase', single], ['Three Phase', three], ['Rewound', rewound]];
+            const maxT = Math.max(...typeData.map(t => t[1]), 1);
+            document.getElementById('typeChart').innerHTML = typeData.map(([l, v], i) => `
+    <div class="bar-wrap"><div class="bar-lbl">${l}</div>
+    <div class="bar-track"><div class="bar-fill${i > 1 ? '' : [' teal', ''][i % 2]}" style="width:${(v / maxT * 100).toFixed(1)}%"></div></div>
+    <div class="bar-val">${v}</div></div>`).join('');
+
+            // Brand chart
+            const bc = {}; motors.forEach(m => { bc[m.brand] = (bc[m.brand] || 0) + 1 });
+            const bArr = Object.entries(bc).sort((a, b) => b[1] - a[1]).slice(0, 6);
+            const maxB = Math.max(...bArr.map(b => b[1]), 1);
+            document.getElementById('brandChart').innerHTML = bArr.map(([b, v]) => `
+    <div class="bar-wrap"><div class="bar-lbl" style="width:100px">${b}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${(v / maxB * 100).toFixed(1)}%"></div></div>
+    <div class="bar-val">${v}</div></div>`).join('');
+
+            // Recent
+            const recent = [...motors].sort((a, b) => (b.added || 0) - (a.added || 0)).slice(0, 8);
+            document.getElementById('recentBody').innerHTML = recent.map(m => `
+    <tr>
+      <td><div class="motor-name-cell"><strong>${m.brand}</strong><small>${m.modelNumber || ''}</small></div></td>
+      <td>${m.brand}</td>
+      <td>${m.ratedPowerHP || '-'} HP</td>
+      <td>${m.ratedRPM || '-'}</td>
+      <td><span class="badge ${m.phase === 'Three' ? 'badge-3ph' : 'badge-1ph'}">${m.phase || '-'} Phase</span></td>
+      <td><span class="badge ${m.motorType === 'AC' ? 'badge-ac' : 'badge-dc'}">${m.motorType || '-'}</span></td>
+    </tr>`).join('');
+        }
+
+        // ============================
+        // MOTORS TABLE
+        // ============================
+        let mFiltered = []; let mSort = 'brand'; let mSortDir = 1; let mPage = 1; const M_PER = 12;
+
+        function filterMotors() {
+            const motors = getMotors();
+            const q = (document.getElementById('motorSearch')?.value || '').toLowerCase();
+            const type = document.getElementById('typeFilter')?.value || '';
+            const phase = document.getElementById('phaseFilter')?.value || '';
+            mFiltered = motors.filter(m => {
+                const txt = [m.brand, m.manufacturer, m.modelNumber, m.serialNumber, m.ratedVoltage, m.ratedPowerHP, m.ratedRPM, m.wireGauge, m.frameSize].join(' ').toLowerCase();
+                return (!q || txt.includes(q)) && (!type || m.motorType === type) && (!phase || m.phase === phase);
+            });
+            mFiltered.sort((a, b) => {
+                let av = a[mSort] || '', bv = b[mSort] || '';
+                if (!isNaN(av) && !isNaN(bv)) { av = parseFloat(av); bv = parseFloat(bv); }
+                else { av = String(av).toLowerCase(); bv = String(bv).toLowerCase(); }
+                return av < bv ? -mSortDir : av > bv ? mSortDir : 0;
+            });
+            mPage = 1; renderMotorsTable();
+        }
+
+        function sortMotors(col) { if (mSort === col) mSortDir *= -1; else { mSort = col; mSortDir = 1; } filterMotors() }
+
+        function renderMotorsTable() {
+            const slice = mFiltered.slice((mPage - 1) * M_PER, mPage * M_PER);
+            const tb = document.getElementById('motorBody');
+            if (!slice.length) {
+                tb.innerHTML = `<tr><td colspan="11"><div class="empty-state"><div class="es-icon">🔍</div><p>No motors found</p></div></td></tr>`;
+            } else {
+                tb.innerHTML = slice.map(m => `
+      <tr>
+        <td><div class="motor-name-cell"><strong>${m.brand}</strong><small>${m.serialNumber || ''}</small></div></td>
+        <td>${m.modelNumber || '-'}</td>
+        <td><strong>${m.ratedPowerHP || '-'}</strong> HP</td>
+        <td>${m.ratedRPM || '-'}</td>
+        <td>${m.ratedVoltage || '-'}</td>
+        <td><span class="badge ${m.motorType === 'AC' ? 'badge-ac' : 'badge-dc'}">${m.motorType || '-'}</span></td>
+        <td><span class="badge ${m.phase === 'Three' ? 'badge-3ph' : 'badge-1ph'}">${m.phase || '-'}</span></td>
+        <td>${m.wireGauge || '-'}</td>
+        <td>${m.totalCoilTurns || '-'}</td>
+        <td>${m.coilWeight || '-'} kg</td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-light btn-sm" onclick="openDetail(${m.id})">👁 View</button>
+          <button class="btn btn-orange btn-sm" onclick="openEditModal(${m.id})" style="margin:0 4px">✏️</button>
+          <button class="btn btn-red btn-sm" onclick="openDeleteConfirm(${m.id})">🗑️</button>
+        </td>
+      </tr>`).join('');
+            }
+            // Pagination
+            const tp = Math.ceil(mFiltered.length / M_PER) || 1;
+            let pg = `<span class="pg-info">${mFiltered.length} record${mFiltered.length !== 1 ? 's' : ''}</span>`;
+            if (tp > 1) {
+                if (mPage > 1) pg += `<button class="pg-btn" onclick="goMPage(${mPage - 1})">‹</button>`;
+                for (let i = 1; i <= tp; i++) {
+                    if (i === 1 || i === tp || Math.abs(i - mPage) <= 1) pg += `<button class="pg-btn${i === mPage ? ' active' : ''}" onclick="goMPage(${i})">${i}</button>`;
+                    else if (Math.abs(i - mPage) === 2) pg += `<span style="padding:0 4px;color:var(--muted)">…</span>`;
+                }
+                if (mPage < tp) pg += `<button class="pg-btn" onclick="goMPage(${mPage + 1})">›</button>`;
+            }
+            document.getElementById('motorPagination').innerHTML = pg;
+        }
+        function goMPage(p) { mPage = p; renderMotorsTable() }
+
+        // ============================
+        // ADD / EDIT MOTOR
+        // ============================
+        let editingId = null;
+        let currentPhase = 'Single';
+
+        function setPhase(p) {
+            currentPhase = p;
+            document.getElementById('phBtn1').classList.toggle('active', p === 'Single');
+            document.getElementById('phBtn3').classList.toggle('active', p === 'Three');
+            document.getElementById('singlePhaseSection').style.display = p === 'Single' ? '' : 'none';
+            document.getElementById('threePhaseSection').style.display = p === 'Three' ? '' : 'none';
+            document.getElementById('f_phase').value = p;
+        }
+        function onPhaseChange() { setPhase(document.getElementById('f_phase').value || 'Single') }
+        function autoKW() {
+            const hp = parseFloat(document.getElementById('f_ratedPowerHP').value) || 0;
+            document.getElementById('f_ratedPowerKW').value = hp ? (hp * 0.7457).toFixed(4) : '';
+        }
+
+        const FIELDS = ['brand', 'manufacturer', 'modelNumber', 'serialNumber', 'motorType', 'phase', 'ratedVoltage', 'ratedCurrent', 'ratedFrequency', 'ratedRPM', 'ratedPowerHP', 'ratedPowerKW', 'dutyType', 'insulationClass', 'ipRating', 'powerFactor', 'efficiency', 'ambientTemp', 'serviceFactor', 'frameSize', 'mountingType', 'countryOrigin', 'mfgDate', 'startingCurrent', 'runningCurrent', 'lockedRotorCurrent', 'breakdownTorque', 'fullLoadTorque', 'windingResR', 'windingResY', 'windingResB', 'meggerTest', 'continuityTest', 'statorSlots', 'rotorSlots', 'slotLength', 'rotorBore', 'coreLength', 'stackHeight', 'airGap', 'totalCoilTurns', 'turnsPerCoil', 'coilPitch', 'windingType', 'windingConnection', 'coilWireType', 'wireGauge', 'wireDiameter', 'coilWeight', 'totalCopperWeight', 'insulationPaper', 'slotInsulThick', 'varnishType', 'bakingTemp', 'bakingTime', 'startingCoilTurns', 'runningCoilTurns', 'startingCoilResistance', 'runningCoilResistance', 'startingCoilWeight', 'runningCoilWeight', 'capacitorType', 'capacitorValue', 'capacitorVoltage', 'centrifugalSwitch', 'lineVoltage', 'phaseVoltage', 'lineCurrent', 'phaseCurrent', 'starDeltaConn', 'terminalMarkings', 'shaftDiameter', 'shaftLength', 'bearingFront', 'bearingRear', 'coolingType', 'fanType', 'fanCoverType', 'motorWeight', 'bodyMaterial', 'lastRewindDate', 'rewindingBy', 'oldCoilWeight', 'newCoilWeight', 'bearingChanged', 'capacitorChanged', 'testReport', 'notes'];
+
+        function openAddModal() {
+            editingId = null;
+            document.getElementById('mModalTitle').textContent = '➕ Add New Motor Record';
+            FIELDS.forEach(f => { const el = document.getElementById('f_' + f); if (el) { el.tagName === 'SELECT' ? el.value = '' : el.value = '' } });
+            setPhase('Single');
+            document.getElementById('motorModal').style.display = 'flex';
+        }
+        function openEditModal(id) {
+            const m = getMotors().find(x => x.id === id); if (!m) return;
+            editingId = id;
+            document.getElementById('mModalTitle').textContent = '✏️ Edit Motor Record';
+            FIELDS.forEach(f => { const el = document.getElementById('f_' + f); if (el) el.value = m[f] || '' });
+            setPhase(m.phase === 'Three' ? 'Three' : 'Single');
+            document.getElementById('motorModal').style.display = 'flex';
+        }
+        function closeMotorModal() { document.getElementById('motorModal').style.display = 'none' }
+        function closeMModalOutside(e) { if (e.target === document.getElementById('motorModal')) closeMotorModal() }
+
+        function saveMotor() {
+            const brand = document.getElementById('f_brand').value.trim();
+            const model = document.getElementById('f_modelNumber').value.trim();
+            const phase = document.getElementById('f_phase').value;
+            const type = document.getElementById('f_motorType').value;
+            if (!brand || !model || !phase || !type) { showToast('Please fill required fields: Brand, Model, Phase, Type', 'err'); return }
+            const motors = getMotors();
+            const obj = { id: editingId || Date.now(), added: editingId ? (motors.find(m => m.id === editingId)?.added || Date.now()) : Date.now() };
+            FIELDS.forEach(f => { const el = document.getElementById('f_' + f); if (el) obj[f] = el.value.trim() });
+            obj.ratedPowerKW = obj.ratedPowerHP ? (parseFloat(obj.ratedPowerHP) * 0.7457).toFixed(4) : obj.ratedPowerKW;
+            let updated;
+            if (editingId) { updated = motors.map(m => m.id === editingId ? obj : m); showToast('✅ Motor updated successfully'); }
+            else { updated = [...motors, obj]; showToast('✅ Motor added successfully'); }
+            saveMotors(updated); closeMotorModal(); refreshAll();
+        }
+
+        // ============================
+        // DETAIL VIEW
+        // ============================
+        function openDetail(id) {
+            const m = getMotors().find(x => x.id === id); if (!m) return;
+            document.getElementById('detailTitle').textContent = `${m.brand} — ${m.modelNumber || 'Motor Detail'}`;
+            document.getElementById('detailEditBtn').onclick = () => { closeDetail(); openEditModal(id) };
+
+            const sec = (title, icon, items) => `
+    <div class="detail-section">
+      <div class="detail-section-title"><span>${icon}</span>${title}</div>
+      <div class="detail-grid">${items.filter(([l, v]) => v).map(([l, v]) => `
+        <div class="detail-item"><div class="di-label">${l}</div><div class="di-val">${v}</div></div>`).join('')}
+      </div>
+    </div>`;
+
+            document.getElementById('detailBody').innerHTML = `
+    ${sec('Nameplate Details', '🏷️', [
+                ['Brand', m.brand], ['Manufacturer', m.manufacturer], ['Model Number', m.modelNumber], ['Serial Number', m.serialNumber],
+                ['Motor Type', m.motorType], ['Phase', m.phase ? m.phase + ' Phase' : ''], ['Rated Voltage', m.ratedVoltage], ['Rated Current', m.ratedCurrent],
+                ['Frequency', m.ratedFrequency], ['Rated RPM', m.ratedRPM], ['Rated Power', m.ratedPowerHP ? m.ratedPowerHP + ' HP / ' + m.ratedPowerKW + ' kW' : ''],
+                ['Duty Type', m.dutyType], ['Insulation Class', m.insulationClass], ['IP Rating', m.ipRating], ['Power Factor', m.powerFactor],
+                ['Efficiency', m.efficiency], ['Ambient Temp', m.ambientTemp], ['Service Factor', m.serviceFactor],
+                ['Frame Size', m.frameSize], ['Mounting Type', m.mountingType], ['Country of Origin', m.countryOrigin], ['Mfg. Date', m.mfgDate]
+            ])}
+    ${sec('Electrical Specifications', '⚡', [
+                ['Starting Current', m.startingCurrent], ['Running Current', m.runningCurrent], ['Locked Rotor Current', m.lockedRotorCurrent],
+                ['Breakdown Torque', m.breakdownTorque], ['Full Load Torque', m.fullLoadTorque],
+                ['Winding Res (R)', m.windingResR], ['Winding Res (Y)', m.windingResY], ['Winding Res (B)', m.windingResB],
+                ['Megger Test', m.meggerTest], ['Continuity Test', m.continuityTest]
+            ])}
+    ${sec('Winding / Coil Details', '🔩', [
+                ['Stator Slots', m.statorSlots], ['Rotor Slots', m.rotorSlots], ['Slot Length', m.slotLength], ['Rotor Bore Dia', m.rotorBore],
+                ['Core Length', m.coreLength], ['Stack Height', m.stackHeight], ['Air Gap', m.airGap],
+                ['Total Coil Turns', m.totalCoilTurns], ['Turns Per Coil', m.turnsPerCoil], ['Coil Pitch', m.coilPitch],
+                ['Winding Type', m.windingType], ['Winding Connection', m.windingConnection], ['Wire Type', m.coilWireType],
+                ['Wire Gauge (SWG)', m.wireGauge], ['Wire Diameter', m.wireDiameter], ['Coil Weight', m.coilWeight ? m.coilWeight + ' kg' : ''],
+                ['Total Copper Weight', m.totalCopperWeight ? m.totalCopperWeight + ' kg' : ''], ['Insulation Paper', m.insulationPaper],
+                ['Slot Insulation', m.slotInsulThick], ['Varnish Type', m.varnishType], ['Baking Temp', m.bakingTemp], ['Baking Time', m.bakingTime]
+            ])}
+    ${m.phase === 'Single' ? sec('Single Phase — Starting & Running Coil', '🔌', [
+                ['Starting Coil Turns', m.startingCoilTurns], ['Running Coil Turns', m.runningCoilTurns],
+                ['Starting Coil Resistance', m.startingCoilResistance], ['Running Coil Resistance', m.runningCoilResistance],
+                ['Starting Coil Weight', m.startingCoilWeight ? m.startingCoilWeight + ' kg' : ''], ['Running Coil Weight', m.runningCoilWeight ? m.runningCoilWeight + ' kg' : ''],
+                ['Capacitor Type', m.capacitorType], ['Capacitor Value', m.capacitorValue], ['Capacitor Voltage', m.capacitorVoltage],
+                ['Centrifugal Switch', m.centrifugalSwitch]
+            ]) : ''}
+    ${m.phase === 'Three' ? sec('Three Phase Electrical Details', '⚡', [
+                ['Line Voltage', m.lineVoltage], ['Phase Voltage', m.phaseVoltage], ['Line Current', m.lineCurrent], ['Phase Current', m.phaseCurrent],
+                ['Star/Delta Connection', m.starDeltaConn], ['Terminal Markings', m.terminalMarkings]
+            ]) : ''}
+    ${sec('Mechanical Details', '⚙️', [
+                ['Shaft Diameter', m.shaftDiameter], ['Shaft Length', m.shaftLength], ['Bearing (Front)', m.bearingFront], ['Bearing (Rear)', m.bearingRear],
+                ['Cooling Type', m.coolingType], ['Fan Type', m.fanType], ['Fan Cover', m.fanCoverType],
+                ['Motor Weight', m.motorWeight ? m.motorWeight + ' kg' : ''], ['Body Material', m.bodyMaterial]
+            ])}
+    ${sec('Repair & Service History', '🔧', [
+                ['Last Rewind Date', m.lastRewindDate], ['Rewinding By', m.rewindingBy],
+                ['Old Coil Weight', m.oldCoilWeight ? m.oldCoilWeight + ' kg' : ''], ['New Coil Weight', m.newCoilWeight ? m.newCoilWeight + ' kg' : ''],
+                ['Bearing Changed', m.bearingChanged], ['Capacitor Changed', m.capacitorChanged], ['Test Report', m.testReport]
+            ])}
+    ${m.notes ? `<div class="detail-section"><div class="detail-section-title"><span>📝</span>Notes / Observations</div><div style="background:#f8fafd;border-radius:10px;padding:14px;color:var(--text);font-size:.9rem;border:1px solid var(--border)">${m.notes}</div></div>` : ''}
+  `;
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+        function closeDetail() { document.getElementById('detailModal').style.display = 'none' }
+        function closeDetailOutside(e) { if (e.target === document.getElementById('detailModal')) closeDetail() }
+
+        // ============================
+        // DELETE
+        // ============================
+        let deleteId = null;
+        function openDeleteConfirm(id) {
+            deleteId = id;
+            const m = getMotors().find(x => x.id === id);
+            document.getElementById('confirmMsg').textContent = `"${m?.brand} ${m?.modelNumber}" will be permanently deleted.`;
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+        function closeConfirm() { document.getElementById('confirmModal').style.display = 'none'; deleteId = null }
+        function confirmDelete() {
+            if (!deleteId) return;
+            saveMotors(getMotors().filter(m => m.id !== deleteId));
+            closeConfirm(); showToast('🗑️ Motor deleted'); refreshAll();
+        }
+
+        // ============================
+        // SETTINGS
+        // ============================
+        function changePassword() {
+            const cur = document.getElementById('curPass').value;
+            const nw = document.getElementById('newPass').value;
+            const cn = document.getElementById('conPass').value;
+            if (hashStr(cur) !== getPass()) { showToast('Current password is incorrect', 'err'); return }
+            if (nw.length < 6) { showToast('New password must be at least 6 characters', 'err'); return }
+            if (nw !== cn) { showToast('Passwords do not match', 'err'); return }
+            localStorage.setItem(LS_PASS, hashStr(nw));
+            document.getElementById('curPass').value = ''; document.getElementById('newPass').value = ''; document.getElementById('conPass').value = '';
+            showToast('✅ Password changed successfully');
+        }
+        function clearAllData() {
+            if (confirm('Are you sure? This will delete ALL motor records permanently!')) {
+                localStorage.removeItem(LS_MOTORS); refreshAll(); showToast('All data cleared', 'warn');
+            }
+        }
+
+        // ============================
+        // EXPORT
+        // ============================
+        function exportCSV() {
+            const motors = getMotors();
+            const headers = FIELDS;
+            const rows = motors.map(m => headers.map(f => `"${(m[f] || '').toString().replace(/"/g, '""')}"`).join(','));
+            dl('srew_motors_export.csv', 'text/csv', [headers.join(','), ...rows].join('\n'));
+            showToast('📊 CSV exported');
+        }
+        function exportJSON() {
+            dl('srew_motors_backup.json', 'application/json', JSON.stringify(getMotors(), null, 2));
+            showToast('💾 JSON backup downloaded');
+        }
+        function printReport() {
+            const motors = getMotors();
+            const w = window.open('', '_blank');
+            w.document.write(`<html><head><title>Shree Ram Electric Works – Motor Report</title><style>body{font-family:sans-serif;padding:20px;font-size:12px}h1{font-size:18px;margin-bottom:4px}h2{font-size:14px;color:#f4890a;margin:20px 0 8px}table{width:100%;border-collapse:collapse;margin-bottom:20px}th,td{border:1px solid #ddd;padding:6px 8px;text-align:left}th{background:#0d1b2a;color:#fff}tr:nth-child(even){background:#f5f5f5}.meta{color:#666;font-size:11px;margin-bottom:20px}</style></head><body><h1>⚡ Shree Ram Electric Works</h1><div class="meta">Motor Data Report · Generated: ${new Date().toLocaleString()} · Total Records: ${motors.length}</div><table><thead><tr><th>#</th><th>Brand</th><th>Model</th><th>HP</th><th>kW</th><th>RPM</th><th>Voltage</th><th>Current</th><th>Phase</th><th>Type</th><th>Gauge</th><th>Turns</th><th>Coil Wt</th><th>Last Rewind</th></tr></thead><tbody>${motors.map((m, i) => `<tr><td>${i + 1}</td><td>${m.brand || ''}</td><td>${m.modelNumber || ''}</td><td>${m.ratedPowerHP || ''}</td><td>${m.ratedPowerKW || ''}</td><td>${m.ratedRPM || ''}</td><td>${m.ratedVoltage || ''}</td><td>${m.ratedCurrent || ''}</td><td>${m.phase || ''}</td><td>${m.motorType || ''}</td><td>${m.wireGauge || ''}</td><td>${m.totalCoilTurns || ''}</td><td>${m.coilWeight || ''}</td><td>${m.lastRewindDate || ''}</td></tr>`).join('')}</tbody></table></body></html>`);
+            w.document.close(); w.print();
+        }
+        function copyTable() {
+            const motors = getMotors();
+            const hdrs = ['Brand', 'Model', 'HP', 'kW', 'RPM', 'Voltage', 'Current', 'Phase', 'Type', 'Wire Gauge', 'Coil Turns', 'Coil Weight'];
+            const rows = motors.map(m => [m.brand, m.modelNumber, m.ratedPowerHP, m.ratedPowerKW, m.ratedRPM, m.ratedVoltage, m.ratedCurrent, m.phase, m.motorType, m.wireGauge, m.totalCoilTurns, m.coilWeight].join('\t'));
+            navigator.clipboard.writeText([hdrs.join('\t'), ...rows].join('\n')).then(() => showToast('📋 Table copied to clipboard'));
+        }
+        function dl(name, type, content) {
+            const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([content], { type })); a.download = name; a.click();
+        }
+
+        // ============================
+        // IMPORT
+        // ============================
+        function dzOver(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('drag-over') }
+        function dzLeave() { document.getElementById('dropZone').classList.remove('drag-over') }
+        function dzDrop(e) { e.preventDefault(); dzLeave(); const f = e.dataTransfer.files[0]; if (f) readJSON(f) }
+        function handleImport(inp) { if (inp.files[0]) readJSON(inp.files[0]) }
+        function readJSON(file) {
+            const r = new FileReader();
+            r.onload = e => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (!Array.isArray(data)) throw new Error();
+                    document.getElementById('importPreview').innerHTML = `
+        <div style="background:var(--light);border-radius:12px;padding:16px;margin-top:12px;border:1px solid var(--border)">
+          <strong>Preview:</strong> ${data.length} motor records found
+          <div style="margin-top:14px;display:flex;gap:10px">
+            <button class="btn btn-orange" onclick='importMerge(${JSON.stringify(data).replace(/'/g, "&#39;")})'>Merge</button>
+            <button class="btn btn-red" onclick='importReplace(${JSON.stringify(data).replace(/'/g, "&#39;")})'>Replace All</button>
+          </div>
+        </div>`;
+                } catch { showToast('❌ Invalid JSON file', 'err') }
+            }; r.readAsText(file);
+        }
+        function importMerge(data) {
+            const ex = getMotors();
+            const merged = [...ex, ...data.filter(d => !ex.find(e => e.id === d.id))];
+            saveMotors(merged); refreshAll(); showToast(`✅ Merged ${data.length} records`);
+        }
+        function importReplace(data) { saveMotors(data); refreshAll(); showToast(`✅ Replaced with ${data.length} records`) }
+
+        // ============================
+        // TOAST
+        // ============================
+        function showToast(msg, type = 'ok') {
+            const t = document.createElement('div');
+            t.className = 'toast' + (type === 'err' ? ' err' : type === 'warn' ? ' warn' : '');
+            t.innerHTML = (type === 'err' ? '❌ ' : type === 'warn' ? '⚠️ ' : '✅ ') + msg;
+            document.getElementById('toastWrap').appendChild(t);
+            setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateX(40px)'; t.style.transition = '.3s'; setTimeout(() => t.remove(), 300) }, 3500);
+        }
+    </script>
+</body>
+
+</html>
