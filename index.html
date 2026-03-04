@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Shree Ram Electric Works – Admin Panel</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="admin.css" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#0d1b2a" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.6.0/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+    <div id="loginOverlay">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="logo-icon">⚡</div>
+                <h2>Shree Ram Electric Works</h2>
+                <p>Admin Panel — Motor Data System</p>
+            </div>
+            <div class="form-field">
+                <label>Username</label>
+                <input type="text" id="loginUser" placeholder="Shree Ram Electric Works" autocomplete="username" />
+            </div>
+            <div class="form-field">
+                <label>Password</label>
+                <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password" />
+            </div>
+            <button class="login-btn" onclick="doLogin()">🔓 Login</button>
+            <div class="login-err" id="loginErr">❌ Invalid username or password</div>
+        </div>
+    </div>
+
+    <!-- INSTALL BANNER -->
+    <div id="installBanner"
+        style="display:none;background:linear-gradient(135deg,var(--orange),var(--orange2));padding:10px 20px;color:#fff;font-size:.86rem;font-weight:600;align-items:center;flex-wrap:wrap;gap:10px;z-index:9998;position:fixed;bottom:0;left:0;right:0">
+        📲 Install this app on your device for faster access & offline use!
+        <button onclick="installPWA()"
+            style="background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);color:#fff;padding:6px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:700;cursor:pointer">Install
+            App</button>
+        <button onclick="dismissInstall()"
+            style="background:none;border:none;color:rgba(255,255,255,.8);cursor:pointer;font-size:1.2rem;margin-left:auto">✕</button>
+    </div>
+
+    <!-- BACKUP BANNER -->
+    <div id="backupBanner" style="display:none" class="backup-banner">
+        ⚠️ <strong>Backup Reminder:</strong> You haven't backed up your data in over 24 hours.
+        <button onclick="exportJSON()"
+            style="background:var(--yellow);border:none;padding:5px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;color:#7a5f00">Download
+            Backup</button>
+        <button onclick="dismissBackup()"
+            style="background:none;border:none;color:#7a5f00;cursor:pointer;font-weight:700;font-size:1.1rem;margin-left:auto">✕</button>
+    </div>
+
+    <!-- APP -->
+    <div id="appWrap" class="app-wrap" style="display:none">
+
+        <!-- SIDEBAR OVERLAY -->
+        <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeAdminSidebar()" style="display:none"></div>
+
+        <!-- SIDEBAR -->
+        <nav class="sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    ⚡ SREW Admin
+                    <span>Motor Data System</span>
+                </div>
+                <button class="sidebar-close-btn" onclick="closeAdminSidebar()" title="Close menu">✕</button>
+            </div>
+
+            <div class="sidebar-nav">
+                <div class="nav-section">Main</div>
+                <div class="nav-item active" id="nav-dashboard"
+                    onclick="showPage('dashboard',this);closeAdminSidebar()">
+                    <span class="ni-icon">📊</span> Dashboard
+                </div>
+                <div class="nav-item" id="nav-motors" onclick="showPage('motors',this);closeAdminSidebar()">
+                    <span class="ni-icon">⚡</span> Motors
+                </div>
+
+                <div class="nav-section">Data</div>
+                <div class="nav-item" id="nav-export" onclick="showPage('export',this);closeAdminSidebar()">
+                    <span class="ni-icon">💾</span> Backup & Export
+                </div>
+                <div class="nav-item" id="nav-import" onclick="showPage('import',this);closeAdminSidebar()">
+                    <span class="ni-icon">📥</span> Import Data
+                </div>
+
+                <div class="nav-section">System</div>
+                <div class="nav-item" id="nav-settings" onclick="showPage('settings',this);closeAdminSidebar()">
+                    <span class="ni-icon">⚙️</span> Settings
+                </div>
+                <div class="nav-item" id="nav-help" onclick="showPage('help',this);closeAdminSidebar()">
+                    <span class="ni-icon">❓</span> Help & Guide
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="sidebarInstallBtn" onclick="installPWA()" class="btn-install-side" style="display:none">
+                    📲 Install App
+                </button>
+                <div id="pwaInstalledMsg"
+                    style="display:none;text-align:center;font-size:.78rem;color:rgba(255,255,255,.5);padding:6px">✅ App
+                    Installed</div>
+                <div class="sidebar-user">
+                    <div class="su-avatar">SR</div>
+                    <div class="su-info">
+                        <div class="su-name">Shree Ram Electric Works</div>
+                        <div class="su-role">Administrator</div>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="logout()">🚪 Logout</button>
+            </div>
+        </nav>
+
+        <!-- MAIN -->
+        <div class="main">
+
+            <!-- TOPBAR -->
+            <div class="topbar">
+                <button class="topbar-hamburger" onclick="openAdminSidebar()" title="Menu">☰</button>
+                <div class="topbar-title">⚡ <span>Shree Ram</span> Electric Works</div>
+                <div class="topbar-right">
+                    <button id="topInstallBtn" onclick="installPWA()" class="btn btn-orange btn-sm"
+                        style="display:none">📲 Install</button>
+                    <a href="/" class="view-site-btn">🌐 Catalogue</a>
+                </div>
+            </div>
+
+            <!-- ===== DASHBOARD ===== -->
+            <div class="page-content active" id="page-dashboard">
+                <div id="statsGrid" class="stats-grid"></div>
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <h3>📊 Motor Type Distribution</h3>
+                        <div id="typeChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>🏷️ Top Brands</h3>
+                        <div id="brandChart"></div>
+                    </div>
+                </div>
+                <div class="table-card">
+                    <div class="table-toolbar">
+                        <h3>🕐 Recently Added Motors</h3>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Motor</th>
+                                    <th>Brand</th>
+                                    <th>HP</th>
+                                    <th>RPM</th>
+                                    <th>Phase</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== MOTORS ===== -->
+            <div class="page-content" id="page-motors">
+                <div class="table-card">
+                    <div class="table-toolbar">
+                        <h3>⚡ All Motors</h3>
+                        <input type="text" id="motorSearch" class="search-input" placeholder="Search motors..."
+                            oninput="filterMotors()" />
+                        <select id="typeFilter" class="sel-filter" onchange="filterMotors()">
+                            <option value="">All Types</option>
+                            <option value="AC">AC</option>
+                            <option value="DC">DC</option>
+                        </select>
+                        <select id="phaseFilter" class="sel-filter" onchange="filterMotors()">
+                            <option value="">All Phases</option>
+                            <option value="Single">Single Phase</option>
+                            <option value="Three">Three Phase</option>
+                        </select>
+                        <button class="btn btn-orange" onclick="openAddModal()">➕ Add Motor</button>
+                    </div>
+                    <div class="table-scroll">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortMotors('brand')">Brand ↕</th>
+                                    <th onclick="sortMotors('frameSize')">Frame ↕</th>
+                                    <th onclick="sortMotors('ratedPowerHP')">HP ↕</th>
+                                    <th onclick="sortMotors('ratedRPM')">RPM ↕</th>
+                                    <th>Voltage</th>
+                                    <th>Type</th>
+                                    <th>Phase</th>
+                                    <th>Gauge</th>
+                                    <th>Turns</th>
+                                    <th>Coil Wt</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="motorBody"></tbody>
+                        </table>
+                    </div>
+                    <div id="motorPagination" class="pagination"></div>
+                </div>
+            </div>
+
+            <!-- ===== EXPORT ===== -->
+            <div class="page-content" id="page-export">
+                <div class="safety-card">
+                    <div class="safety-header">💾 Data Safety Summary</div>
+                    <div class="safety-grid">
+                        <div class="safety-item">
+                            <div class="si-icon">📦</div>
+                            <div>
+                                <div class="si-title">Total Records</div>
+                                <div class="si-val" id="totalRecordsLabel">0</div>
+                            </div>
+                        </div>
+                        <div class="safety-item">
+                            <div class="si-icon">🕐</div>
+                            <div>
+                                <div class="si-title">Last Backup</div>
+                                <div class="si-val" id="lastBackupLabel" style="font-size:.8rem">Never</div>
+                            </div>
+                        </div>
+                        <div class="safety-item">
+                            <div class="si-icon">💚</div>
+                            <div>
+                                <div class="si-title">Storage</div>
+                                <div class="si-val">Local</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="export-grid">
+                    <div class="export-card">
+                        <div class="ec-icon">📄</div>
+                        <h3>PDF Report</h3>
+                        <p>Export all motors as a printable PDF report</p>
+                        <button class="btn btn-navy" onclick="exportAllPDF()">📄 Download PDF</button>
+                    </div>
+                    <div class="export-card">
+                        <div class="ec-icon">📊</div>
+                        <h3>CSV Export</h3>
+                        <p>Spreadsheet-compatible format for Excel/Sheets</p>
+                        <button class="btn btn-green" onclick="exportCSV()">📊 Download CSV</button>
+                    </div>
+                    <div class="export-card">
+                        <div class="ec-icon">💾</div>
+                        <h3>JSON Backup</h3>
+                        <p>Full backup — restore your data anytime</p>
+                        <button class="btn btn-orange" onclick="exportJSON()">💾 Download JSON</button>
+                    </div>
+                    <div class="export-card">
+                        <div class="ec-icon">🖨️</div>
+                        <h3>Print Report</h3>
+                        <p>Send directly to printer</p>
+                        <button class="btn btn-light" onclick="printReport()">🖨️ Print</button>
+                    </div>
+                    <div class="export-card">
+                        <div class="ec-icon">📋</div>
+                        <h3>Copy Table</h3>
+                        <p>Copy as tab-separated text</p>
+                        <button class="btn btn-light" onclick="copyTable()">📋 Copy</button>
+                    </div>
+                </div>
+                <p style="font-size:.82rem;color:var(--muted);margin-top:4px">💡 <strong>Tip:</strong> Back up your JSON
+                    regularly. Last backup: <strong id="lastBackupDate">Never</strong></p>
+            </div>
+
+            <!-- ===== IMPORT ===== -->
+            <div class="page-content" id="page-import">
+                <div class="table-card" style="max-width:600px">
+                    <div class="table-toolbar">
+                        <h3>📥 Import Motor Data</h3>
+                    </div>
+                    <div style="padding:22px 22px 24px">
+                        <div class="drop-zone" id="dropZone" ondragover="dzOver(event)" ondragleave="dzLeave()"
+                            ondrop="dzDrop(event)" onclick="document.getElementById('importFile').click()">
+                            <div class="dz-icon">📂</div>
+                            <p style="font-weight:700;color:var(--navy);margin-bottom:5px">Drop JSON file here or click
+                                to browse</p>
+                            <p style="font-size:.82rem;color:var(--muted)">Only .json backup files exported from this
+                                system</p>
+                        </div>
+                        <input type="file" id="importFile" accept=".json" style="display:none"
+                            onchange="handleImport(this)" />
+                        <div id="importPreview"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== SETTINGS ===== -->
+            <div class="page-content" id="page-settings">
+                <div class="settings-card">
+                    <h3>🔐 Change Password</h3>
+                    <div class="fg" style="margin-bottom:12px">
+                        <label>Current Password</label>
+                        <input type="password" id="curPass" placeholder="Current password" />
+                    </div>
+                    <div class="fg" style="margin-bottom:12px">
+                        <label>New Password</label>
+                        <input type="password" id="newPass" placeholder="Min 6 characters" />
+                    </div>
+                    <div class="fg" style="margin-bottom:18px">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="conPass" placeholder="Repeat new password" />
+                    </div>
+                    <button class="btn btn-orange" onclick="changePassword()">🔐 Change Password</button>
+                </div>
+                <div class="settings-card">
+                    <h3>🗑️ Danger Zone</h3>
+                    <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px">Permanently delete all motor
+                        records. A JSON backup will be downloaded first.</p>
+                    <button class="btn btn-red" onclick="clearAllData()">🗑️ Clear All Data</button>
+                </div>
+                <div class="settings-card">
+                    <h3>📲 App Install</h3>
+                    <p style="font-size:.86rem;color:var(--muted);margin-bottom:16px">Install this admin panel as a PWA
+                        app on your device for offline access.</p>
+                    <button id="topInstallBtn2" onclick="installPWA()" class="btn-install">📲 Install App on
+                        Device</button>
+                </div>
+            </div>
+
+            <!-- ===== HELP ===== -->
+            <div class="page-content" id="page-help">
+                <div class="help-hero">
+                    <div class="help-hero-icon">📖</div>
+                    <h2>Help & User Guide</h2>
+                    <p>Everything you need to know about managing your motor data</p>
+                </div>
+                <div class="help-grid">
+                    <div class="help-card">
+                        <div class="hc-num">1</div>
+                        <h3>➕ Adding a Motor</h3>
+                        <p>Go to Motors page → click "Add Motor". Fill in the nameplate details, select phase
+                            (Single/Three), enter winding data and mechanical details. Click Save.</p>
+                    </div>
+                    <div class="help-card">
+                        <div class="hc-num">2</div>
+                        <h3>🔢 Turns per Pitch</h3>
+                        <p>In the winding section, click "Add Pitch" to record coil turns per pitch slot (e.g. Pitch 1-8
+                            → 90 turns). Add as many pitch rows as needed.</p>
+                    </div>
+                    <div class="help-card">
+                        <div class="hc-num">3</div>
+                        <h3>📄 PDF Job Card</h3>
+                        <p>Each motor has a "📄" button in the Actions column. Click it to download a professional PDF
+                            job card with all motor specifications.</p>
+                    </div>
+                    <div class="help-card">
+                        <div class="hc-num">4</div>
+                        <h3>💾 Backups</h3>
+                        <p>Go to Backup & Export page and download JSON regularly. Before any delete, a backup is
+                            auto-downloaded. Keep JSON files safe — they can fully restore your data.</p>
+                    </div>
+                    <div class="help-card">
+                        <div class="hc-num">5</div>
+                        <h3>📥 Restore Data</h3>
+                        <p>Go to Import Data, drop your backup JSON file, then choose Merge (to keep existing records)
+                            or Replace All (to overwrite with the backup).</p>
+                    </div>
+                    <div class="help-card">
+                        <div class="hc-num">6</div>
+                        <h3>📲 Install as App</h3>
+                        <p>Click the Install button in Settings or the topbar. This installs the panel as a PWA app on
+                            your phone/tablet for quick access, even offline.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /main -->
+    </div><!-- /appWrap -->
+
+    <!-- ===== ADD/EDIT MOTOR MODAL ===== -->
+    <div class="modal-bg" id="motorModal" style="display:none" onclick="closeMModalOutside(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="mModalTitle">➕ Add New Motor</h2>
+                <button class="modal-close" onclick="closeMotorModal()">✕</button>
+            </div>
+            <div class="modal-body">
+
+                <!-- NAMEPLATE -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">🏷️</span> Nameplate Details</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Brand *</label><input type="text" id="f_brand"
+                                placeholder="e.g. Crompton" /></div>
+                        <div class="fg"><label>Manufacturer</label><input type="text" id="f_manufacturer"
+                                placeholder="Full company name" /></div>
+                        <div class="fg">
+                            <label>Motor Type *</label>
+                            <select id="f_motorType">
+                                <option value="">Select type</option>
+                                <option value="AC">AC</option>
+                                <option value="DC">DC</option>
+                            </select>
+                        </div>
+                        <div class="fg">
+                            <label>Phase *</label>
+                            <select id="f_phase" onchange="onPhaseChange()">
+                                <option value="Single">Single Phase</option>
+                                <option value="Three">Three Phase</option>
+                            </select>
+                        </div>
+                        <div class="fg"><label>Rated Voltage</label><input type="text" id="f_ratedVoltage"
+                                placeholder="e.g. 230V" /></div>
+                        <div class="fg"><label>Rated Current</label><input type="text" id="f_ratedCurrent"
+                                placeholder="e.g. 8.5A" /></div>
+                        <div class="fg"><label>Rated Frequency</label><input type="text" id="f_ratedFrequency"
+                                placeholder="50Hz" /></div>
+                        <div class="fg"><label>Rated RPM</label><input type="number" id="f_ratedRPM"
+                                placeholder="1440" /></div>
+                        <div class="fg"><label>Rated Power (HP)</label><input type="number" id="f_ratedPowerHP"
+                                step="0.01" placeholder="e.g. 1.5" oninput="autoKW()" /></div>
+                        <div class="fg"><label>Rated Power (kW) <small
+                                    style="font-weight:400">(auto)</small></label><input type="text" id="f_ratedPowerKW"
+                                placeholder="Auto-calculated" readonly style="background:#f8fafd" /></div>
+                        <div class="fg">
+                            <label>Insulation Class</label>
+                            <select id="f_insulationClass">
+                                <option value="">—</option>
+                                <option>A</option>
+                                <option>B</option>
+                                <option>F</option>
+                                <option>H</option>
+                            </select>
+                        </div>
+                        <div class="fg"><label>Efficiency</label><input type="text" id="f_efficiency"
+                                placeholder="e.g. 82%" /></div>
+                        <div class="fg"><label>Frame Size</label><input type="text" id="f_frameSize"
+                                placeholder="e.g. D90S" /></div>
+                    </div>
+                </div>
+
+                <!-- ELECTRICAL -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">⚡</span> Electrical</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Running Current</label><input type="text" id="f_runningCurrent"
+                                placeholder="e.g. 8.2A" /></div>
+                    </div>
+                </div>
+
+                <!-- WINDING -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">🔩</span> Winding / Coil Details</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Stator Slot Count</label><input type="number" id="f_statorSlots"
+                                placeholder="e.g. 36" /></div>
+                        <div class="fg"><label>Slot Length</label><input type="text" id="f_slotLength"
+                                placeholder="e.g. 42mm" /></div>
+                        <div class="fg"><label>Total Coil Turns</label><input type="number" id="f_totalCoilTurns"
+                                placeholder="e.g. 720" /></div>
+                        <div class="fg"><label>Turns Per Coil</label><input type="number" id="f_turnsPerCoil"
+                                placeholder="e.g. 90" /></div>
+                        <div class="fg"><label>Coil Pitch</label><input type="text" id="f_coilPitch"
+                                placeholder="e.g. 1-8" /></div>
+                        <div class="fg">
+                            <label>Winding Connection</label>
+                            <select id="f_windingConnection">
+                                <option value="">—</option>
+                                <option>Star</option>
+                                <option>Delta</option>
+                                <option>Concentric</option>
+                                <option>Lap</option>
+                            </select>
+                        </div>
+                        <div class="fg">
+                            <label>Coil Wire Type</label>
+                            <select id="f_coilWireType">
+                                <option value="">—</option>
+                                <option>Copper</option>
+                                <option>Aluminium</option>
+                            </select>
+                        </div>
+                        <div class="fg"><label>Wire Gauge (SWG)</label><input type="text" id="f_wireGauge"
+                                placeholder="e.g. 22 SWG" /></div>
+                        <div class="fg"><label>Coil Weight (kg)</label><input type="number" id="f_coilWeight"
+                                step="0.01" placeholder="e.g. 1.15" /></div>
+                    </div>
+
+                    <!-- Turns per Pitch -->
+                    <div style="margin-top:16px">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                            <label
+                                style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px">🔢
+                                Turns per Pitch</label>
+                            <button type="button" class="btn btn-light btn-sm" onclick="addPitchRow()">➕ Add
+                                Pitch</button>
+                        </div>
+                        <div id="pitchTurnsContainer" style="display:flex;flex-direction:column;gap:10px"></div>
+                    </div>
+                </div>
+
+                <!-- PHASE TOGGLE -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">🔌</span> Phase-Specific Data</div>
+                    <div class="phase-toggle">
+                        <button type="button" class="phase-btn active" id="phBtn1" onclick="setPhase('Single')">🔌
+                            Single Phase</button>
+                        <button type="button" class="phase-btn" id="phBtn3" onclick="setPhase('Three')">⚡ Three
+                            Phase</button>
+                    </div>
+
+                    <!-- Single Phase -->
+                    <div id="singlePhaseSection">
+                        <div class="form-grid">
+                            <div class="fg"><label>Starting Coil Turns</label><input type="number"
+                                    id="f_startingCoilTurns" placeholder="e.g. 480" /></div>
+                            <div class="fg"><label>Running Coil Turns</label><input type="number"
+                                    id="f_runningCoilTurns" placeholder="e.g. 240" /></div>
+                            <div class="fg"><label>Starting Coil Weight (kg)</label><input type="number"
+                                    id="f_startingCoilWeight" step="0.01" placeholder="e.g. 0.42" /></div>
+                            <div class="fg"><label>Running Coil Weight (kg)</label><input type="number"
+                                    id="f_runningCoilWeight" step="0.01" placeholder="e.g. 0.73" /></div>
+                            <div class="fg"><label>Capacitor Value</label><input type="text" id="f_capacitorValue"
+                                    placeholder="e.g. 25µF / 4µF" /></div>
+                        </div>
+                    </div>
+
+                    <!-- Three Phase -->
+                    <div id="threePhaseSection" style="display:none">
+                        <div class="form-grid">
+                            <div class="fg"><label>Line Voltage</label><input type="text" id="f_lineVoltage"
+                                    placeholder="e.g. 415V" /></div>
+                            <div class="fg"><label>Phase Voltage</label><input type="text" id="f_phaseVoltage"
+                                    placeholder="e.g. 240V" /></div>
+                            <div class="fg"><label>Line Current</label><input type="text" id="f_lineCurrent"
+                                    placeholder="e.g. 7.8A" /></div>
+                            <div class="fg"><label>Phase Current</label><input type="text" id="f_phaseCurrent"
+                                    placeholder="e.g. 4.5A" /></div>
+                            <div class="fg">
+                                <label>Star/Delta Connection</label>
+                                <select id="f_starDeltaConn">
+                                    <option value="">—</option>
+                                    <option>Star</option>
+                                    <option>Delta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MECHANICAL -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">⚙️</span> Mechanical Details</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Shaft Diameter</label><input type="text" id="f_shaftDiameter"
+                                placeholder="e.g. 24mm" /></div>
+                        <div class="fg"><label>Shaft Length</label><input type="text" id="f_shaftLength"
+                                placeholder="e.g. 55mm" /></div>
+                        <div class="fg"><label>Bearing Number (Front)</label><input type="text" id="f_bearingFront"
+                                placeholder="e.g. 6305" /></div>
+                        <div class="fg"><label>Bearing Number (Rear)</label><input type="text" id="f_bearingRear"
+                                placeholder="e.g. 6203" /></div>
+                        <div class="fg"><label>Cooling Fan Size</label><input type="text" id="f_fanSize"
+                                placeholder="e.g. 160mm" /></div>
+                        <div class="fg"><label>Fan Cover Size</label><input type="text" id="f_fanCoverSize"
+                                placeholder="e.g. 180mm" /></div>
+                        <div class="fg"><label>Total Motor Weight (kg)</label><input type="number" id="f_motorWeight"
+                                step="0.1" placeholder="e.g. 11.5" /></div>
+                        <div class="fg">
+                            <label>Body Material</label>
+                            <select id="f_bodyMaterial">
+                                <option value="">—</option>
+                                <option>Cast Iron</option>
+                                <option>Aluminium</option>
+                                <option>Steel</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REPAIR -->
+                <div class="form-section">
+                    <div class="form-section-title"><span class="fs-icon">🔧</span> Repair History</div>
+                    <div class="form-grid">
+                        <div class="fg"><label>Old Coil Weight (kg)</label><input type="number" id="f_oldCoilWeight"
+                                step="0.01" placeholder="e.g. 1.0" /></div>
+                        <div class="fg"><label>New Coil Weight (kg)</label><input type="number" id="f_newCoilWeight"
+                                step="0.01" placeholder="e.g. 1.15" /></div>
+                        <div class="fg full"><label>Notes / Observations</label><textarea id="f_notes"
+                                placeholder="Any observations, issues found, work done..."></textarea></div>
+                    </div>
+                </div>
+
+            </div><!-- /modal-body -->
+            <div class="modal-footer">
+                <button class="btn btn-light" onclick="closeMotorModal()">Cancel</button>
+                <button class="btn btn-orange" onclick="saveMotor()">💾 Save Motor</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <div class="modal-bg" id="detailModal" style="display:none" onclick="closeDetailOutside(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="detailTitle">Motor Details</h2>
+                <button class="modal-close" onclick="closeDetail()">✕</button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+            <div class="modal-footer">
+                <button id="detailEditBtn" class="btn btn-orange">✏️ Edit</button>
+                <button id="detailPdfBtn" class="btn btn-navy">📄 PDF</button>
+                <button class="btn btn-light" onclick="closeDetail()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONFIRM DELETE MODAL -->
+    <div class="modal-bg" id="confirmModal" style="display:none">
+        <div class="confirm-box">
+            <div class="cb-icon">🗑️</div>
+            <h3>Delete Motor?</h3>
+            <p id="confirmMsg">This motor will be permanently deleted.</p>
+            <p style="font-size:.8rem;color:var(--muted);margin-top:-14px;margin-bottom:22px">A backup will be
+                auto-downloaded before deletion.</p>
+            <div class="confirm-btns">
+                <button class="btn btn-light" onclick="closeConfirm()">Cancel</button>
+                <button class="btn btn-red" onclick="confirmDelete()">🗑️ Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-wrap" id="toastWrap"></div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>
