@@ -32,8 +32,6 @@ function getSampleData() {
       id: 1,
       brand: "Crompton",
       manufacturer: "Crompton Greaves Ltd",
-      modelNumber: "GF2054",
-      serialNumber: "CG-2023-001",
       motorType: "AC",
       phase: "Single",
       ratedVoltage: "230V",
@@ -41,82 +39,41 @@ function getSampleData() {
       ratedFrequency: "50Hz",
       ratedRPM: 1440,
       ratedPowerHP: 1.5,
-      ratedPowerKW: "1.12",
-      dutyType: "S1",
+      ratedPowerKW: "1.1186",
       insulationClass: "B",
-      ipRating: "IP55",
-      powerFactor: "0.88",
       efficiency: "82%",
-      ambientTemp: "40°C",
-      serviceFactor: "1.15",
       frameSize: "D90S",
-      mountingType: "B3",
-      countryOrigin: "India",
-      mfgDate: "Jan 2020",
-      startingCurrent: "52A",
       runningCurrent: "8.2A",
-      lockedRotorCurrent: "58A",
-      breakdownTorque: "18 N·m",
-      fullLoadTorque: "7.4 N·m",
-      windingResR: "12.4Ω",
-      windingResY: "12.3Ω",
-      windingResB: "12.5Ω",
-      meggerTest: ">100 MΩ",
-      continuityTest: "Pass",
       statorSlots: 36,
-      rotorSlots: 28,
       slotLength: "42mm",
-      rotorBore: "68mm",
-      coreLength: "75mm",
-      stackHeight: "90mm",
-      airGap: "0.3mm",
       totalCoilTurns: 720,
       turnsPerCoil: 90,
       coilPitch: "1-8",
-      windingType: "Concentric",
       windingConnection: "",
       coilWireType: "Copper",
       wireGauge: "22 SWG",
-      wireDiameter: "0.71mm",
       coilWeight: "1.15",
-      totalCopperWeight: "1.05",
-      insulationPaper: "Nomex 410",
-      slotInsulThick: "0.25mm",
-      varnishType: "Class B Epoxy",
-      bakingTemp: "120°C",
-      bakingTime: "5 hrs",
+      pitchTurns: [{ pitch: "1-8", turns: "90" }],
       startingCoilTurns: 480,
       runningCoilTurns: 240,
-      startingCoilResistance: "28Ω",
-      runningCoilResistance: "12.4Ω",
       startingCoilWeight: "0.42",
       runningCoilWeight: "0.73",
-      capacitorType: "Start + Run",
       capacitorValue: "25µF / 4µF",
-      capacitorVoltage: "250V / 400V",
-      centrifugalSwitch: "Yes",
       lineVoltage: "",
       phaseVoltage: "",
       lineCurrent: "",
       phaseCurrent: "",
       starDeltaConn: "",
-      terminalMarkings: "",
       shaftDiameter: "24mm",
       shaftLength: "55mm",
       bearingFront: "6305",
       bearingRear: "6203",
-      coolingType: "IC211",
-      fanType: "External",
-      fanCoverType: "End Cover",
+      fanSize: "160mm",
+      fanCoverSize: "180mm",
       motorWeight: "11.5",
       bodyMaterial: "Cast Iron",
-      lastRewindDate: "2023-06-10",
-      rewindingBy: "Shree Ram Electric Works",
       oldCoilWeight: "1.0",
       newCoilWeight: "1.15",
-      bearingChanged: "Yes",
-      capacitorChanged: "Yes",
-      testReport: "Pass",
       notes: "Motor rewound after burnout. Running perfectly.",
       added: Date.now() - 86400000 * 10,
     },
@@ -124,8 +81,6 @@ function getSampleData() {
       id: 2,
       brand: "Kirloskar",
       manufacturer: "Kirloskar Electric Co.",
-      modelNumber: "KE3-4544",
-      serialNumber: "KE-2022-045",
       motorType: "AC",
       phase: "Three",
       ratedVoltage: "415V",
@@ -133,82 +88,41 @@ function getSampleData() {
       ratedFrequency: "50Hz",
       ratedRPM: 1450,
       ratedPowerHP: 3,
-      ratedPowerKW: "2.24",
-      dutyType: "S1",
+      ratedPowerKW: "2.2371",
       insulationClass: "F",
-      ipRating: "IP55",
-      powerFactor: "0.86",
       efficiency: "87%",
-      ambientTemp: "50°C",
-      serviceFactor: "1.0",
       frameSize: "D100L",
-      mountingType: "B3",
-      countryOrigin: "India",
-      mfgDate: "Mar 2022",
-      startingCurrent: "47A",
       runningCurrent: "7.5A",
-      lockedRotorCurrent: "52A",
-      breakdownTorque: "28 N·m",
-      fullLoadTorque: "14.8 N·m",
-      windingResR: "4.2Ω",
-      windingResY: "4.1Ω",
-      windingResB: "4.2Ω",
-      meggerTest: ">500 MΩ",
-      continuityTest: "Pass",
       statorSlots: 36,
-      rotorSlots: 28,
       slotLength: "55mm",
-      rotorBore: "72mm",
-      coreLength: "85mm",
-      stackHeight: "100mm",
-      airGap: "0.35mm",
       totalCoilTurns: 576,
       turnsPerCoil: 72,
       coilPitch: "1-9",
-      windingType: "Lap",
       windingConnection: "Star",
       coilWireType: "Copper",
       wireGauge: "20 SWG",
-      wireDiameter: "0.91mm",
       coilWeight: "2.8",
-      totalCopperWeight: "2.6",
-      insulationPaper: "Leatheroid 0.2mm",
-      slotInsulThick: "0.30mm",
-      varnishType: "Class F Alkyd",
-      bakingTemp: "155°C",
-      bakingTime: "8 hrs",
+      pitchTurns: [{ pitch: "1-9", turns: "72" }],
       startingCoilTurns: 0,
       runningCoilTurns: 0,
-      startingCoilResistance: "",
-      runningCoilResistance: "",
       startingCoilWeight: "",
       runningCoilWeight: "",
-      capacitorType: "",
       capacitorValue: "",
-      capacitorVoltage: "",
-      centrifugalSwitch: "",
       lineVoltage: "415V",
       phaseVoltage: "240V",
       lineCurrent: "7.8A",
       phaseCurrent: "4.5A",
       starDeltaConn: "Star",
-      terminalMarkings: "U1,U2,V1,V2,W1,W2",
       shaftDiameter: "28mm",
       shaftLength: "60mm",
       bearingFront: "6206",
       bearingRear: "6204",
-      coolingType: "IC411",
-      fanType: "External",
-      fanCoverType: "End Cover",
+      fanSize: "200mm",
+      fanCoverSize: "220mm",
       motorWeight: "18.5",
       bodyMaterial: "Cast Iron",
-      lastRewindDate: "2024-01-15",
-      rewindingBy: "Shree Ram Electric Works",
       oldCoilWeight: "2.5",
       newCoilWeight: "2.8",
-      bearingChanged: "Yes",
-      capacitorChanged: "No",
-      testReport: "Pass",
       notes: "Rewound after flood damage. Star connected.",
       added: Date.now() - 86400000 * 5,
     },
@@ -263,9 +177,7 @@ function showPage(id, el) {
   document.getElementById("page-" + id).classList.add("active");
   el.classList.add("active");
   if (id === "dashboard") renderDashboard();
-  if (id === "motors") {
-    filterMotors();
-  }
+  if (id === "motors") filterMotors();
 }
 
 // ============================
@@ -286,11 +198,7 @@ function renderDashboard() {
   const dc = motors.filter((m) => m.motorType === "DC").length;
   const single = motors.filter((m) => m.phase === "Single").length;
   const three = motors.filter((m) => m.phase === "Three").length;
-  const rewound = motors.filter((m) => m.lastRewindDate).length;
-  const totalCu = motors.reduce(
-    (s, m) => s + parseFloat(m.totalCopperWeight || 0),
-    0,
-  );
+  const rewound = motors.filter((m) => m.newCoilWeight).length;
   const avgHP = total
     ? motors.reduce((s, m) => s + parseFloat(m.ratedPowerHP || 0), 0) / total
     : 0;
@@ -304,13 +212,11 @@ function renderDashboard() {
     <div class="stat-card c6"><div class="sc-icon">🔴</div><div class="sc-num" style="color:var(--red)">${dc}</div><div class="sc-label">DC Motors</div></div>
     <div class="stat-card c4"><div class="sc-icon">🔌</div><div class="sc-num" style="color:var(--yellow)">${single}</div><div class="sc-label">Single Phase</div></div>
     <div class="stat-card c5"><div class="sc-icon">⚡</div><div class="sc-num" style="color:var(--green)">${three}</div><div class="sc-label">Three Phase</div></div>
-    <div class="stat-card c3"><div class="sc-icon">🔩</div><div class="sc-num">${totalCu.toFixed(2)}</div><div class="sc-label">Total Cu (kg)</div></div>
     <div class="stat-card c1"><div class="sc-icon">💪</div><div class="sc-num">${avgHP.toFixed(2)}</div><div class="sc-label">Avg HP</div></div>
     <div class="stat-card c2"><div class="sc-icon">🔄</div><div class="sc-num">${Math.round(avgRPM)}</div><div class="sc-label">Avg RPM</div></div>
     <div class="stat-card c5"><div class="sc-icon">🔧</div><div class="sc-num" style="color:var(--green)">${rewound}</div><div class="sc-label">Rewound</div></div>
   `;
 
-  // Type chart
   const typeData = [
     ["AC Motors", ac],
     ["DC Motors", dc],
@@ -323,12 +229,11 @@ function renderDashboard() {
     .map(
       ([l, v], i) => `
     <div class="bar-wrap"><div class="bar-lbl">${l}</div>
-    <div class="bar-track"><div class="bar-fill${i > 1 ? "" : [" teal", ""][i % 2]}" style="width:${((v / maxT) * 100).toFixed(1)}%"></div></div>
+    <div class="bar-track"><div class="bar-fill${i === 1 ? " teal" : ""}" style="width:${((v / maxT) * 100).toFixed(1)}%"></div></div>
     <div class="bar-val">${v}</div></div>`,
     )
     .join("");
 
-  // Brand chart
   const bc = {};
   motors.forEach((m) => {
     bc[m.brand] = (bc[m.brand] || 0) + 1;
@@ -346,7 +251,6 @@ function renderDashboard() {
     )
     .join("");
 
-  // Recent
   const recent = [...motors]
     .sort((a, b) => (b.added || 0) - (a.added || 0))
     .slice(0, 8);
@@ -354,7 +258,7 @@ function renderDashboard() {
     .map(
       (m) => `
     <tr>
-      <td><div class="motor-name-cell"><strong>${m.brand}</strong><small>${m.modelNumber || ""}</small></div></td>
+      <td><div class="motor-name-cell"><strong>${m.brand}</strong><small>${m.frameSize || ""}</small></div></td>
       <td>${m.brand}</td>
       <td>${m.ratedPowerHP || "-"} HP</td>
       <td>${m.ratedRPM || "-"}</td>
@@ -383,13 +287,11 @@ function filterMotors() {
     const txt = [
       m.brand,
       m.manufacturer,
-      m.modelNumber,
-      m.serialNumber,
+      m.frameSize,
       m.ratedVoltage,
       m.ratedPowerHP,
       m.ratedRPM,
       m.wireGauge,
-      m.frameSize,
     ]
       .join(" ")
       .toLowerCase();
@@ -434,8 +336,8 @@ function renderMotorsTable() {
       .map(
         (m) => `
       <tr>
-        <td><div class="motor-name-cell"><strong>${m.brand}</strong><small>${m.serialNumber || ""}</small></div></td>
-        <td>${m.modelNumber || "-"}</td>
+        <td><div class="motor-name-cell"><strong>${m.brand}</strong><small>${m.frameSize || ""}</small></div></td>
+        <td>${m.frameSize || "-"}</td>
         <td><strong>${m.ratedPowerHP || "-"}</strong> HP</td>
         <td>${m.ratedRPM || "-"}</td>
         <td>${m.ratedVoltage || "-"}</td>
@@ -453,7 +355,6 @@ function renderMotorsTable() {
       )
       .join("");
   }
-  // Pagination
   const tp = Math.ceil(mFiltered.length / M_PER) || 1;
   let pg = `<span class="pg-info">${mFiltered.length} record${mFiltered.length !== 1 ? "s" : ""}</span>`;
   if (tp > 1) {
@@ -473,6 +374,49 @@ function renderMotorsTable() {
 function goMPage(p) {
   mPage = p;
   renderMotorsTable();
+}
+
+// ============================
+// PITCH TURNS DYNAMIC ROWS
+// ============================
+function addPitchRow(pitch = "", turns = "") {
+  const container = document.getElementById("pitchTurnsContainer");
+  const row = document.createElement("div");
+  row.className = "pitch-row";
+  row.style.cssText = "display:flex;align-items:center;gap:10px";
+  row.innerHTML = `
+    <div class="fg" style="flex:1;gap:4px">
+      <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px">Pitch</label>
+      <input type="text" class="pitch-input" placeholder="e.g. 1-8" value="${pitch}"
+        style="padding:9px 12px;border:2px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;width:100%;color:var(--text)" />
+    </div>
+    <div class="fg" style="flex:1;gap:4px">
+      <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px">Turns</label>
+      <input type="number" class="turns-input" placeholder="e.g. 90" value="${turns}"
+        style="padding:9px 12px;border:2px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;width:100%;color:var(--text)" />
+    </div>
+    <button type="button" onclick="this.parentElement.remove()"
+      style="margin-top:18px;background:var(--light);border:none;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1rem;color:var(--muted);flex-shrink:0">✕</button>
+  `;
+  container.appendChild(row);
+}
+
+function getPitchTurns() {
+  const rows = document.querySelectorAll("#pitchTurnsContainer .pitch-row");
+  const result = [];
+  rows.forEach((row) => {
+    const pitch = row.querySelector(".pitch-input").value.trim();
+    const turns = row.querySelector(".turns-input").value.trim();
+    if (pitch || turns) result.push({ pitch, turns });
+  });
+  return result;
+}
+
+function renderPitchTurns(arr) {
+  document.getElementById("pitchTurnsContainer").innerHTML = "";
+  if (arr && arr.length) {
+    arr.forEach((item) => addPitchRow(item.pitch, item.turns));
+  }
 }
 
 // ============================
@@ -504,8 +448,6 @@ function autoKW() {
 const FIELDS = [
   "brand",
   "manufacturer",
-  "modelNumber",
-  "serialNumber",
   "motorType",
   "phase",
   "ratedVoltage",
@@ -514,81 +456,39 @@ const FIELDS = [
   "ratedRPM",
   "ratedPowerHP",
   "ratedPowerKW",
-  "dutyType",
   "insulationClass",
-  "ipRating",
-  "powerFactor",
   "efficiency",
-  "ambientTemp",
-  "serviceFactor",
   "frameSize",
-  "mountingType",
-  "countryOrigin",
-  "mfgDate",
-  "startingCurrent",
   "runningCurrent",
-  "lockedRotorCurrent",
-  "breakdownTorque",
-  "fullLoadTorque",
-  "windingResR",
-  "windingResY",
-  "windingResB",
-  "meggerTest",
-  "continuityTest",
   "statorSlots",
-  "rotorSlots",
   "slotLength",
-  "rotorBore",
-  "coreLength",
-  "stackHeight",
-  "airGap",
   "totalCoilTurns",
   "turnsPerCoil",
   "coilPitch",
-  "windingType",
   "windingConnection",
   "coilWireType",
   "wireGauge",
-  "wireDiameter",
   "coilWeight",
-  "totalCopperWeight",
-  "insulationPaper",
-  "slotInsulThick",
-  "varnishType",
-  "bakingTemp",
-  "bakingTime",
   "startingCoilTurns",
   "runningCoilTurns",
-  "startingCoilResistance",
-  "runningCoilResistance",
   "startingCoilWeight",
   "runningCoilWeight",
-  "capacitorType",
   "capacitorValue",
-  "capacitorVoltage",
-  "centrifugalSwitch",
   "lineVoltage",
   "phaseVoltage",
   "lineCurrent",
   "phaseCurrent",
   "starDeltaConn",
-  "terminalMarkings",
   "shaftDiameter",
   "shaftLength",
   "bearingFront",
   "bearingRear",
-  "coolingType",
-  "fanType",
-  "fanCoverType",
+  "fanSize",
+  "fanCoverSize",
   "motorWeight",
   "bodyMaterial",
-  "lastRewindDate",
-  "rewindingBy",
   "oldCoilWeight",
   "newCoilWeight",
-  "bearingChanged",
-  "capacitorChanged",
-  "testReport",
   "notes",
 ];
 
@@ -598,13 +498,13 @@ function openAddModal() {
     "➕ Add New Motor Record";
   FIELDS.forEach((f) => {
     const el = document.getElementById("f_" + f);
-    if (el) {
-      el.tagName === "SELECT" ? (el.value = "") : (el.value = "");
-    }
+    if (el) el.value = "";
   });
+  renderPitchTurns([]);
   setPhase("Single");
   document.getElementById("motorModal").style.display = "flex";
 }
+
 function openEditModal(id) {
   const m = getMotors().find((x) => x.id === id);
   if (!m) return;
@@ -614,9 +514,11 @@ function openEditModal(id) {
     const el = document.getElementById("f_" + f);
     if (el) el.value = m[f] || "";
   });
+  renderPitchTurns(m.pitchTurns || []);
   setPhase(m.phase === "Three" ? "Three" : "Single");
   document.getElementById("motorModal").style.display = "flex";
 }
+
 function closeMotorModal() {
   document.getElementById("motorModal").style.display = "none";
 }
@@ -626,11 +528,10 @@ function closeMModalOutside(e) {
 
 function saveMotor() {
   const brand = document.getElementById("f_brand").value.trim();
-  const model = document.getElementById("f_modelNumber").value.trim();
   const phase = document.getElementById("f_phase").value;
   const type = document.getElementById("f_motorType").value;
-  if (!brand || !model || !phase || !type) {
-    showToast("Please fill required fields: Brand, Model, Phase, Type", "err");
+  if (!brand || !phase || !type) {
+    showToast("Please fill required fields: Brand, Phase, Type", "err");
     return;
   }
   const motors = getMotors();
@@ -647,6 +548,8 @@ function saveMotor() {
   obj.ratedPowerKW = obj.ratedPowerHP
     ? (parseFloat(obj.ratedPowerHP) * 0.7457).toFixed(4)
     : obj.ratedPowerKW;
+  obj.pitchTurns = getPitchTurns();
+
   let updated;
   if (editingId) {
     updated = motors.map((m) => (m.id === editingId ? obj : m));
@@ -667,31 +570,46 @@ function openDetail(id) {
   const m = getMotors().find((x) => x.id === id);
   if (!m) return;
   document.getElementById("detailTitle").textContent =
-    `${m.brand} — ${m.modelNumber || "Motor Detail"}`;
+    `${m.brand} — ${m.frameSize || "Motor Detail"}`;
   document.getElementById("detailEditBtn").onclick = () => {
     closeDetail();
     openEditModal(id);
   };
 
-  const sec = (title, icon, items) => `
-    <div class="detail-section">
+  const sec = (title, icon, items) => {
+    const filled = items.filter(([l, v]) => v);
+    if (!filled.length) return "";
+    return `<div class="detail-section">
       <div class="detail-section-title"><span>${icon}</span>${title}</div>
-      <div class="detail-grid">${items
-        .filter(([l, v]) => v)
+      <div class="detail-grid">${filled
         .map(
-          ([l, v]) => `
-        <div class="detail-item"><div class="di-label">${l}</div><div class="di-val">${v}</div></div>`,
+          ([l, v]) =>
+            `<div class="detail-item"><div class="di-label">${l}</div><div class="di-val">${v}</div></div>`,
         )
-        .join("")}
+        .join("")}</div>
+    </div>`;
+  };
+
+  // Pitch turns section
+  let pitchHtml = "";
+  if (m.pitchTurns && m.pitchTurns.length) {
+    pitchHtml = `<div class="detail-section">
+      <div class="detail-section-title"><span>🔢</span>Turns per Pitch</div>
+      <div class="detail-grid">
+        ${m.pitchTurns
+          .map(
+            (pt) =>
+              `<div class="detail-item"><div class="di-label">Pitch ${pt.pitch}</div><div class="di-val">${pt.turns} turns</div></div>`,
+          )
+          .join("")}
       </div>
     </div>`;
+  }
 
   document.getElementById("detailBody").innerHTML = `
     ${sec("Nameplate Details", "🏷️", [
       ["Brand", m.brand],
       ["Manufacturer", m.manufacturer],
-      ["Model Number", m.modelNumber],
-      ["Serial Number", m.serialNumber],
       ["Motor Type", m.motorType],
       ["Phase", m.phase ? m.phase + " Phase" : ""],
       ["Rated Voltage", m.ratedVoltage],
@@ -704,64 +622,30 @@ function openDetail(id) {
           ? m.ratedPowerHP + " HP / " + m.ratedPowerKW + " kW"
           : "",
       ],
-      ["Duty Type", m.dutyType],
       ["Insulation Class", m.insulationClass],
-      ["IP Rating", m.ipRating],
-      ["Power Factor", m.powerFactor],
       ["Efficiency", m.efficiency],
-      ["Ambient Temp", m.ambientTemp],
-      ["Service Factor", m.serviceFactor],
       ["Frame Size", m.frameSize],
-      ["Mounting Type", m.mountingType],
-      ["Country of Origin", m.countryOrigin],
-      ["Mfg. Date", m.mfgDate],
     ])}
     ${sec("Electrical Specifications", "⚡", [
-      ["Starting Current", m.startingCurrent],
       ["Running Current", m.runningCurrent],
-      ["Locked Rotor Current", m.lockedRotorCurrent],
-      ["Breakdown Torque", m.breakdownTorque],
-      ["Full Load Torque", m.fullLoadTorque],
-      ["Winding Res (R)", m.windingResR],
-      ["Winding Res (Y)", m.windingResY],
-      ["Winding Res (B)", m.windingResB],
-      ["Megger Test", m.meggerTest],
-      ["Continuity Test", m.continuityTest],
     ])}
     ${sec("Winding / Coil Details", "🔩", [
       ["Stator Slots", m.statorSlots],
-      ["Rotor Slots", m.rotorSlots],
       ["Slot Length", m.slotLength],
-      ["Rotor Bore Dia", m.rotorBore],
-      ["Core Length", m.coreLength],
-      ["Stack Height", m.stackHeight],
-      ["Air Gap", m.airGap],
       ["Total Coil Turns", m.totalCoilTurns],
       ["Turns Per Coil", m.turnsPerCoil],
       ["Coil Pitch", m.coilPitch],
-      ["Winding Type", m.windingType],
       ["Winding Connection", m.windingConnection],
       ["Wire Type", m.coilWireType],
       ["Wire Gauge (SWG)", m.wireGauge],
-      ["Wire Diameter", m.wireDiameter],
       ["Coil Weight", m.coilWeight ? m.coilWeight + " kg" : ""],
-      [
-        "Total Copper Weight",
-        m.totalCopperWeight ? m.totalCopperWeight + " kg" : "",
-      ],
-      ["Insulation Paper", m.insulationPaper],
-      ["Slot Insulation", m.slotInsulThick],
-      ["Varnish Type", m.varnishType],
-      ["Baking Temp", m.bakingTemp],
-      ["Baking Time", m.bakingTime],
     ])}
+    ${pitchHtml}
     ${
       m.phase === "Single"
         ? sec("Single Phase — Starting & Running Coil", "🔌", [
             ["Starting Coil Turns", m.startingCoilTurns],
             ["Running Coil Turns", m.runningCoilTurns],
-            ["Starting Coil Resistance", m.startingCoilResistance],
-            ["Running Coil Resistance", m.runningCoilResistance],
             [
               "Starting Coil Weight",
               m.startingCoilWeight ? m.startingCoilWeight + " kg" : "",
@@ -770,10 +654,7 @@ function openDetail(id) {
               "Running Coil Weight",
               m.runningCoilWeight ? m.runningCoilWeight + " kg" : "",
             ],
-            ["Capacitor Type", m.capacitorType],
             ["Capacitor Value", m.capacitorValue],
-            ["Capacitor Voltage", m.capacitorVoltage],
-            ["Centrifugal Switch", m.centrifugalSwitch],
           ])
         : ""
     }
@@ -785,7 +666,6 @@ function openDetail(id) {
             ["Line Current", m.lineCurrent],
             ["Phase Current", m.phaseCurrent],
             ["Star/Delta Connection", m.starDeltaConn],
-            ["Terminal Markings", m.terminalMarkings],
           ])
         : ""
     }
@@ -794,20 +674,14 @@ function openDetail(id) {
       ["Shaft Length", m.shaftLength],
       ["Bearing (Front)", m.bearingFront],
       ["Bearing (Rear)", m.bearingRear],
-      ["Cooling Type", m.coolingType],
-      ["Fan Type", m.fanType],
-      ["Fan Cover", m.fanCoverType],
+      ["Fan Size", m.fanSize],
+      ["Fan Cover Size", m.fanCoverSize],
       ["Motor Weight", m.motorWeight ? m.motorWeight + " kg" : ""],
       ["Body Material", m.bodyMaterial],
     ])}
     ${sec("Repair & Service History", "🔧", [
-      ["Last Rewind Date", m.lastRewindDate],
-      ["Rewinding By", m.rewindingBy],
       ["Old Coil Weight", m.oldCoilWeight ? m.oldCoilWeight + " kg" : ""],
       ["New Coil Weight", m.newCoilWeight ? m.newCoilWeight + " kg" : ""],
-      ["Bearing Changed", m.bearingChanged],
-      ["Capacitor Changed", m.capacitorChanged],
-      ["Test Report", m.testReport],
     ])}
     ${m.notes ? `<div class="detail-section"><div class="detail-section-title"><span>📝</span>Notes / Observations</div><div style="background:#f8fafd;border-radius:10px;padding:14px;color:var(--text);font-size:.9rem;border:1px solid var(--border)">${m.notes}</div></div>` : ""}
   `;
@@ -828,7 +702,7 @@ function openDeleteConfirm(id) {
   deleteId = id;
   const m = getMotors().find((x) => x.id === id);
   document.getElementById("confirmMsg").textContent =
-    `"${m?.brand} ${m?.modelNumber}" will be permanently deleted.`;
+    `"${m?.brand} ${m?.frameSize || ""}" will be permanently deleted.`;
   document.getElementById("confirmModal").style.display = "flex";
 }
 function closeConfirm() {
@@ -883,10 +757,18 @@ function clearAllData() {
 // ============================
 function exportCSV() {
   const motors = getMotors();
-  const headers = FIELDS;
+  const headers = [...FIELDS, "pitchTurns"];
   const rows = motors.map((m) =>
     headers
-      .map((f) => `"${(m[f] || "").toString().replace(/"/g, '""')}"`)
+      .map((f) => {
+        const val =
+          f === "pitchTurns"
+            ? (m.pitchTurns || [])
+                .map((pt) => `${pt.pitch}:${pt.turns}`)
+                .join(" | ")
+            : (m[f] || "").toString();
+        return `"${val.replace(/"/g, '""')}"`;
+      })
       .join(","),
   );
   dl(
@@ -907,9 +789,29 @@ function exportJSON() {
 function printReport() {
   const motors = getMotors();
   const w = window.open("", "_blank");
-  w.document.write(
-    `<html><head><title>Shree Ram Electric Works – Motor Report</title><style>body{font-family:sans-serif;padding:20px;font-size:12px}h1{font-size:18px;margin-bottom:4px}h2{font-size:14px;color:#f4890a;margin:20px 0 8px}table{width:100%;border-collapse:collapse;margin-bottom:20px}th,td{border:1px solid #ddd;padding:6px 8px;text-align:left}th{background:#0d1b2a;color:#fff}tr:nth-child(even){background:#f5f5f5}.meta{color:#666;font-size:11px;margin-bottom:20px}</style></head><body><h1>⚡ Shree Ram Electric Works</h1><div class="meta">Motor Data Report · Generated: ${new Date().toLocaleString()} · Total Records: ${motors.length}</div><table><thead><tr><th>#</th><th>Brand</th><th>Model</th><th>HP</th><th>kW</th><th>RPM</th><th>Voltage</th><th>Current</th><th>Phase</th><th>Type</th><th>Gauge</th><th>Turns</th><th>Coil Wt</th><th>Last Rewind</th></tr></thead><tbody>${motors.map((m, i) => `<tr><td>${i + 1}</td><td>${m.brand || ""}</td><td>${m.modelNumber || ""}</td><td>${m.ratedPowerHP || ""}</td><td>${m.ratedPowerKW || ""}</td><td>${m.ratedRPM || ""}</td><td>${m.ratedVoltage || ""}</td><td>${m.ratedCurrent || ""}</td><td>${m.phase || ""}</td><td>${m.motorType || ""}</td><td>${m.wireGauge || ""}</td><td>${m.totalCoilTurns || ""}</td><td>${m.coilWeight || ""}</td><td>${m.lastRewindDate || ""}</td></tr>`).join("")}</tbody></table></body></html>`,
-  );
+  w.document
+    .write(`<html><head><title>Shree Ram Electric Works – Motor Report</title>
+    <style>body{font-family:sans-serif;padding:20px;font-size:12px}h1{font-size:18px;margin-bottom:4px}
+    table{width:100%;border-collapse:collapse;margin-bottom:20px}th,td{border:1px solid #ddd;padding:6px 8px;text-align:left}
+    th{background:#0d1b2a;color:#fff}tr:nth-child(even){background:#f5f5f5}.meta{color:#666;font-size:11px;margin-bottom:20px}</style>
+    </head><body>
+    <h1>⚡ Shree Ram Electric Works</h1>
+    <div class="meta">Motor Data Report · Generated: ${new Date().toLocaleString()} · Total Records: ${motors.length}</div>
+    <table><thead><tr>
+      <th>#</th><th>Brand</th><th>HP</th><th>kW</th><th>RPM</th><th>Voltage</th>
+      <th>Phase</th><th>Type</th><th>Gauge</th><th>Turns</th><th>Coil Wt</th><th>Frame</th>
+    </tr></thead><tbody>
+    ${motors
+      .map(
+        (m, i) => `<tr>
+      <td>${i + 1}</td><td>${m.brand || ""}</td><td>${m.ratedPowerHP || ""}</td>
+      <td>${m.ratedPowerKW || ""}</td><td>${m.ratedRPM || ""}</td><td>${m.ratedVoltage || ""}</td>
+      <td>${m.phase || ""}</td><td>${m.motorType || ""}</td><td>${m.wireGauge || ""}</td>
+      <td>${m.totalCoilTurns || ""}</td><td>${m.coilWeight || ""}</td><td>${m.frameSize || ""}</td>
+    </tr>`,
+      )
+      .join("")}
+    </tbody></table></body></html>`);
   w.document.close();
   w.print();
 }
@@ -917,32 +819,30 @@ function copyTable() {
   const motors = getMotors();
   const hdrs = [
     "Brand",
-    "Model",
     "HP",
     "kW",
     "RPM",
     "Voltage",
-    "Current",
     "Phase",
     "Type",
     "Wire Gauge",
     "Coil Turns",
     "Coil Weight",
+    "Frame",
   ];
   const rows = motors.map((m) =>
     [
       m.brand,
-      m.modelNumber,
       m.ratedPowerHP,
       m.ratedPowerKW,
       m.ratedRPM,
       m.ratedVoltage,
-      m.ratedCurrent,
       m.phase,
       m.motorType,
       m.wireGauge,
       m.totalCoilTurns,
       m.coilWeight,
+      m.frameSize,
     ].join("\t"),
   );
   navigator.clipboard
